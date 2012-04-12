@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyDayDataModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="MyDayDataModelStoreContainer">
+    <EntitySet Name="Actions" EntityType="MyDayDataModel.Store.Actions" store:Type="Tables" />
+    <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.Store.ActionTypes" store:Type="Tables" />
+    <EntitySet Name="Projects" EntityType="MyDayDataModel.Store.Projects" store:Type="Tables" />
+    <EntitySet Name="Tasks" EntityType="MyDayDataModel.Store.Tasks" store:Type="Tables" />
+    <EntitySet Name="TaskStatuses" EntityType="MyDayDataModel.Store.TaskStatuses" store:Type="Tables" />
+    <EntitySet Name="TaskTypes" EntityType="MyDayDataModel.Store.TaskTypes" store:Type="Tables" />
+    <AssociationSet Name="FK_Actions_1_0" Association="MyDayDataModel.Store.FK_Actions_1_0">
+      <End Role="ActionTypes" EntitySet="ActionTypes" />
+      <End Role="Actions" EntitySet="Actions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tasks_0_0" Association="MyDayDataModel.Store.FK_Tasks_0_0">
+      <End Role="TaskStatuses" EntitySet="TaskStatuses" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tasks_1_0" Association="MyDayDataModel.Store.FK_Tasks_1_0">
+      <End Role="TaskTypes" EntitySet="TaskTypes" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tasks_2_0" Association="MyDayDataModel.Store.FK_Tasks_2_0">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Actions">
+    <Key>
+      <PropertyRef Name="ActionCode" />
+    </Key>
+    <Property Name="ActionCode" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaskCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="ActionTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="FromTime" Type="datetime" Nullable="false" />
+    <Property Name="ToTime" Type="datetime" Nullable="false" />
+    <Property Name="ActionComments" Type="nvarchar" Nullable="false" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ActionTypes">
+    <Key>
+      <PropertyRef Name="ActionTypeCode" />
+    </Key>
+    <Property Name="ActionTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Projects">
+    <Key>
+      <PropertyRef Name="ProjectCode" />
+    </Key>
+    <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6035: The relationship 'FK_Actions_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_Actions_0_1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      -->
+  <EntityType Name="Tasks">
+    <Key>
+      <PropertyRef Name="ProjectCode" />
+      <PropertyRef Name="TaskCode" />
+    </Key>
+    <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaskCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaskTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="TaskStatusCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="EstimatedEffortHours" Type="decimal" Scale="2" />
+  </EntityType>
+  <EntityType Name="TaskStatuses">
+    <Key>
+      <PropertyRef Name="TaskStatusCode" />
+    </Key>
+    <Property Name="TaskStatusCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="TaskTypes">
+    <Key>
+      <PropertyRef Name="TaskTypeCode" />
+    </Key>
+    <Property Name="TaskTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Actions_1_0">
+    <End Role="ActionTypes" Type="MyDayDataModel.Store.ActionTypes" Multiplicity="1" />
+    <End Role="Actions" Type="MyDayDataModel.Store.Actions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActionTypes">
+        <PropertyRef Name="ActionTypeCode" />
+      </Principal>
+      <Dependent Role="Actions">
+        <PropertyRef Name="ActionTypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tasks_0_0">
+    <End Role="TaskStatuses" Type="MyDayDataModel.Store.TaskStatuses" Multiplicity="1" />
+    <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaskStatuses">
+        <PropertyRef Name="TaskStatusCode" />
+      </Principal>
+      <Dependent Role="Tasks">
+        <PropertyRef Name="TaskStatusCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tasks_1_0">
+    <End Role="TaskTypes" Type="MyDayDataModel.Store.TaskTypes" Multiplicity="1" />
+    <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaskTypes">
+        <PropertyRef Name="TaskTypeCode" />
+      </Principal>
+      <Dependent Role="Tasks">
+        <PropertyRef Name="TaskTypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tasks_2_0">
+    <End Role="Projects" Type="MyDayDataModel.Store.Projects" Multiplicity="1" />
+    <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectCode" />
+      </Principal>
+      <Dependent Role="Tasks">
+        <PropertyRef Name="ProjectCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyDayDataModelStoreContainer" CdmEntityContainer="MyDayData">
+    <EntitySetMapping Name="Actions">
+      <EntityTypeMapping TypeName="MyDayDataModel.Action">
+        <MappingFragment StoreEntitySet="Actions">
+          <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+          <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+          <ScalarProperty Name="TaskCode" ColumnName="TaskCode" />
+          <ScalarProperty Name="ActionTypeCode" ColumnName="ActionTypeCode" />
+          <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+          <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+          <ScalarProperty Name="ActionComments" ColumnName="ActionComments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActionTypes">
+      <EntityTypeMapping TypeName="MyDayDataModel.ActionType">
+        <MappingFragment StoreEntitySet="ActionTypes">
+          <ScalarProperty Name="ActionTypeCode" ColumnName="ActionTypeCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Projects">
+      <EntityTypeMapping TypeName="MyDayDataModel.Project">
+        <MappingFragment StoreEntitySet="Projects">
+          <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="MyDayDataModel.Task">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+          <ScalarProperty Name="TaskCode" ColumnName="TaskCode" />
+          <ScalarProperty Name="TaskTypeCode" ColumnName="TaskTypeCode" />
+          <ScalarProperty Name="TaskStatusCode" ColumnName="TaskStatusCode" />
+          <ScalarProperty Name="EstimatedEffortHours" ColumnName="EstimatedEffortHours" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaskStatuses">
+      <EntityTypeMapping TypeName="MyDayDataModel.TaskStatus">
+        <MappingFragment StoreEntitySet="TaskStatuses">
+          <ScalarProperty Name="TaskStatusCode" ColumnName="TaskStatusCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaskTypes">
+      <EntityTypeMapping TypeName="MyDayDataModel.TaskType">
+        <MappingFragment StoreEntitySet="TaskTypes">
+          <ScalarProperty Name="TaskTypeCode" ColumnName="TaskTypeCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

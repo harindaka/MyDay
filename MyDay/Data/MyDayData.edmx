@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyDayDataModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="MyDayDataModelStoreContainer">
+          <EntitySet Name="Actions" EntityType="MyDayDataModel.Store.Actions" store:Type="Tables" />
+          <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.Store.ActionTypes" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="MyDayDataModel.Store.Projects" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="MyDayDataModel.Store.Tasks" store:Type="Tables" />
+          <EntitySet Name="TaskStatuses" EntityType="MyDayDataModel.Store.TaskStatuses" store:Type="Tables" />
+          <EntitySet Name="TaskTypes" EntityType="MyDayDataModel.Store.TaskTypes" store:Type="Tables" />
+          <AssociationSet Name="FK_Actions_1_0" Association="MyDayDataModel.Store.FK_Actions_1_0">
+            <End Role="ActionTypes" EntitySet="ActionTypes" />
+            <End Role="Actions" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_0_0" Association="MyDayDataModel.Store.FK_Tasks_0_0">
+            <End Role="TaskStatuses" EntitySet="TaskStatuses" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_1_0" Association="MyDayDataModel.Store.FK_Tasks_1_0">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_2_0" Association="MyDayDataModel.Store.FK_Tasks_2_0">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Actions">
+          <Key>
+            <PropertyRef Name="ActionCode" />
+          </Key>
+          <Property Name="ActionCode" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TaskCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ActionTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="FromTime" Type="datetime" Nullable="false" />
+          <Property Name="ToTime" Type="datetime" Nullable="false" />
+          <Property Name="ActionComments" Type="nvarchar" Nullable="false" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ActionTypes">
+          <Key>
+            <PropertyRef Name="ActionTypeCode" />
+          </Key>
+          <Property Name="ActionTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectCode" />
+          </Key>
+          <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6035: The relationship 'FK_Actions_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_Actions_0_1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      -->
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="ProjectCode" />
+            <PropertyRef Name="TaskCode" />
+          </Key>
+          <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TaskCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TaskTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TaskStatusCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="EstimatedEffortHours" Type="decimal" Scale="2" />
+        </EntityType>
+        <EntityType Name="TaskStatuses">
+          <Key>
+            <PropertyRef Name="TaskStatusCode" />
+          </Key>
+          <Property Name="TaskStatusCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TaskTypes">
+          <Key>
+            <PropertyRef Name="TaskTypeCode" />
+          </Key>
+          <Property Name="TaskTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Actions_1_0">
+          <End Role="ActionTypes" Type="MyDayDataModel.Store.ActionTypes" Multiplicity="1" />
+          <End Role="Actions" Type="MyDayDataModel.Store.Actions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionTypes">
+              <PropertyRef Name="ActionTypeCode" />
+            </Principal>
+            <Dependent Role="Actions">
+              <PropertyRef Name="ActionTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_0_0">
+          <End Role="TaskStatuses" Type="MyDayDataModel.Store.TaskStatuses" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatuses">
+              <PropertyRef Name="TaskStatusCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskStatusCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_1_0">
+          <End Role="TaskTypes" Type="MyDayDataModel.Store.TaskTypes" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="TaskTypeCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_2_0">
+          <End Role="Projects" Type="MyDayDataModel.Store.Projects" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Store.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyDayDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="MyDayData" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actions" EntityType="MyDayDataModel.Action" />
+          <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.ActionType" />
+          <EntitySet Name="Projects" EntityType="MyDayDataModel.Project" />
+          <EntitySet Name="Tasks" EntityType="MyDayDataModel.Task" />
+          <EntitySet Name="TaskStatuses" EntityType="MyDayDataModel.TaskStatus" />
+          <EntitySet Name="TaskTypes" EntityType="MyDayDataModel.TaskType" />
+          <AssociationSet Name="FK_Actions_1_0" Association="MyDayDataModel.FK_Actions_1_0">
+            <End Role="ActionTypes" EntitySet="ActionTypes" />
+            <End Role="Actions" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_2_0" Association="MyDayDataModel.FK_Tasks_2_0">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_0_0" Association="MyDayDataModel.FK_Tasks_0_0">
+            <End Role="TaskStatuses" EntitySet="TaskStatuses" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_1_0" Association="MyDayDataModel.FK_Tasks_1_0">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ActionCode" />
+          </Key>
+          <Property Name="ActionCode" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="TaskCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="ActionTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="FromTime" Type="DateTime" Nullable="false" />
+          <Property Name="ToTime" Type="DateTime" Nullable="false" />
+          <Property Name="ActionComments" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ActionType" Relationship="MyDayDataModel.FK_Actions_1_0" FromRole="Actions" ToRole="ActionTypes" />
+        </EntityType>
+        <EntityType Name="ActionType">
+          <Key>
+            <PropertyRef Name="ActionTypeCode" />
+          </Key>
+          <Property Name="ActionTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Actions" Relationship="MyDayDataModel.FK_Actions_1_0" FromRole="ActionTypes" ToRole="Actions" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectCode" />
+          </Key>
+          <Property Name="ProjectCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tasks" Relationship="MyDayDataModel.FK_Tasks_2_0" FromRole="Projects" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ProjectCode" />
+            <PropertyRef Name="TaskCode" />
+          </Key>
+          <Property Name="ProjectCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="TaskCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="TaskTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="TaskStatusCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="EstimatedEffortHours" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Project" Relationship="MyDayDataModel.FK_Tasks_2_0" FromRole="Tasks" ToRole="Projects" />
+          <NavigationProperty Name="TaskStatus" Relationship="MyDayDataModel.FK_Tasks_0_0" FromRole="Tasks" ToRole="TaskStatuses" />
+          <NavigationProperty Name="TaskType" Relationship="MyDayDataModel.FK_Tasks_1_0" FromRole="Tasks" ToRole="TaskTypes" />
+        </EntityType>
+        <EntityType Name="TaskStatus">
+          <Key>
+            <PropertyRef Name="TaskStatusCode" />
+          </Key>
+          <Property Name="TaskStatusCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tasks" Relationship="MyDayDataModel.FK_Tasks_0_0" FromRole="TaskStatuses" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="TaskTypeCode" />
+          </Key>
+          <Property Name="TaskTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tasks" Relationship="MyDayDataModel.FK_Tasks_1_0" FromRole="TaskTypes" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_Actions_1_0">
+          <End Role="ActionTypes" Type="MyDayDataModel.ActionType" Multiplicity="1" />
+          <End Role="Actions" Type="MyDayDataModel.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionTypes">
+              <PropertyRef Name="ActionTypeCode" />
+            </Principal>
+            <Dependent Role="Actions">
+              <PropertyRef Name="ActionTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_2_0">
+          <End Role="Projects" Type="MyDayDataModel.Project" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_0_0">
+          <End Role="TaskStatuses" Type="MyDayDataModel.TaskStatus" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatuses">
+              <PropertyRef Name="TaskStatusCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskStatusCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_1_0">
+          <End Role="TaskTypes" Type="MyDayDataModel.TaskType" Multiplicity="1" />
+          <End Role="Tasks" Type="MyDayDataModel.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="TaskTypeCode" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyDayDataModelStoreContainer" CdmEntityContainer="MyDayData">
+          <EntitySetMapping Name="Actions"><EntityTypeMapping TypeName="MyDayDataModel.Action"><MappingFragment StoreEntitySet="Actions">
+            <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+            <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+            <ScalarProperty Name="TaskCode" ColumnName="TaskCode" />
+            <ScalarProperty Name="ActionTypeCode" ColumnName="ActionTypeCode" />
+            <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+            <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+            <ScalarProperty Name="ActionComments" ColumnName="ActionComments" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ActionTypes"><EntityTypeMapping TypeName="MyDayDataModel.ActionType"><MappingFragment StoreEntitySet="ActionTypes">
+            <ScalarProperty Name="ActionTypeCode" ColumnName="ActionTypeCode" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Projects"><EntityTypeMapping TypeName="MyDayDataModel.Project"><MappingFragment StoreEntitySet="Projects">
+            <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Tasks"><EntityTypeMapping TypeName="MyDayDataModel.Task"><MappingFragment StoreEntitySet="Tasks">
+            <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+            <ScalarProperty Name="TaskCode" ColumnName="TaskCode" />
+            <ScalarProperty Name="TaskTypeCode" ColumnName="TaskTypeCode" />
+            <ScalarProperty Name="TaskStatusCode" ColumnName="TaskStatusCode" />
+            <ScalarProperty Name="EstimatedEffortHours" ColumnName="EstimatedEffortHours" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TaskStatuses"><EntityTypeMapping TypeName="MyDayDataModel.TaskStatus"><MappingFragment StoreEntitySet="TaskStatuses">
+            <ScalarProperty Name="TaskStatusCode" ColumnName="TaskStatusCode" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TaskTypes"><EntityTypeMapping TypeName="MyDayDataModel.TaskType"><MappingFragment StoreEntitySet="TaskTypes">
+            <ScalarProperty Name="TaskTypeCode" ColumnName="TaskTypeCode" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="MyDayData">
+        <EntityTypeShape EntityType="MyDayDataModel.Action" Width="1.5" PointX="5" PointY="4.875" Height="2.2496956380208335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyDayDataModel.ActionType" Width="1.5" PointX="2.75" PointY="5.375" Height="1.2636116536458335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyDayDataModel.Project" Width="1.5" PointX="0.75" PointY="1.5" Height="1.2636116536458335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyDayDataModel.Task" Width="1.5" PointX="3" PointY="1" Height="2.2496956380208331" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyDayDataModel.TaskStatus" Width="1.5" PointX="0.75" PointY="4.125" Height="1.2636116536458335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyDayDataModel.TaskType" Width="1.5" PointX="0.75" PointY="6.125" Height="1.2636116536458317" IsExpanded="true" />
+        <AssociationConnector Association="MyDayDataModel.FK_Actions_1_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.25" PointY="6.0068058268229167" />
+          <ConnectorPoint PointX="4.2916641666666671" PointY="6.0068058268229159" />
+          <ConnectorPoint PointX="4.4583308333333331" PointY="6.0068058268229167" />
+          <ConnectorPoint PointX="5" PointY="6.0068058268229167" />
+        </AssociationConnector>
+        <AssociationConnector Association="MyDayDataModel.FK_Tasks_2_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.1318058268229167" />
+          <ConnectorPoint PointX="3" PointY="2.1318058268229167" />
+        </AssociationConnector>
+        <AssociationConnector Association="MyDayDataModel.FK_Tasks_0_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.71875" />
+          <ConnectorPoint PointX="4.40625" PointY="4.71875" />
+          <ConnectorPoint PointX="4.40625" PointY="3.2496956380208331" />
+        </AssociationConnector>
+        <AssociationConnector Association="MyDayDataModel.FK_Tasks_1_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="7.0448616536458326" />
+          <ConnectorPoint PointX="4.3749975" PointY="7.0448616536458326" />
+          <ConnectorPoint PointX="4.3749975" PointY="3.2496956380208331" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
