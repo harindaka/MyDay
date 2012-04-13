@@ -39,7 +39,10 @@ namespace MyDay
         private void lblStatus_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(lblStatus.Text))
+            {
                 MessageBox.Show(lblStatus.Text, "MyDay");
+                this.Show();
+            }
         }
     }
 }

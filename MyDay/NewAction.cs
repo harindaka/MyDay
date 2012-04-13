@@ -33,8 +33,87 @@ namespace MyDay
                             orderby p.ProjectCode
                             select p.ProjectCode;
 
-                autoCompleteBox1.AutoCompleteList = query.ToList();
+                txtProject.AutoCompleteList = query.ToList();
             }
+
+            this.ResetControls();
+        }
+
+        private Control GetNextControl(Control ctrl)
+        {
+            if (ctrl == txtProject)
+                return txtTask;
+            else if (ctrl == txtTask)
+                return txtTaskType;
+            else if (ctrl == txtTaskType)
+                return txtTaskStatus;
+            else if (ctrl == txtTaskStatus)
+                return txtEstEffort;
+            else if (ctrl == txtEstEffort)
+                return txtAction;
+            else if (ctrl == txtAction)
+                return dtpActionDate;
+            else if (ctrl == dtpActionDate)
+                return dtpActionTimeFrom;
+            else if (ctrl == dtpActionTimeFrom)
+                return dtpActionTimeTo;
+            else if (ctrl == dtpActionTimeTo)
+                return txtActionType;
+            else if (ctrl == txtActionType)
+                return btnSave;
+            else if (ctrl == btnSave)
+                return txtProject;
+
+            return null;
+        }
+
+        private void MoveToNextControl(Control currentControl, PictureBox newPic = null)
+        {
+            Control nextCtrl = this.GetNextControl(currentControl);
+            nextCtrl.Enabled = true;
+            nextCtrl.Focus();
+            if (nextCtrl is AutoCompleteBox)
+                ((AutoCompleteBox)nextCtrl).SelectAll();
+
+            currentControl.Enabled = false;
+
+            if (newPic != null)
+                newPic.Visible = true;
+
+            this.SetStatus(String.Empty);
+        }
+
+        private void ResetControls(bool sameTask = false)
+        {
+            foreach (Control ctrl in this.pnlFields.Controls)
+            {
+                if (!(ctrl is Label))
+                {
+                    ctrl.Enabled = false;
+                    if (ctrl is AutoCompleteBox && !sameTask)
+                        ctrl.Text = String.Empty;                    
+                    else if (ctrl is PictureBox)
+                        ctrl.Visible = false;
+                }
+            }
+
+            if (sameTask)
+            {
+                txtAction.Text = String.Empty;
+                txtAction.Enabled = true;
+                txtAction.Focus();
+            }
+            else
+            {
+                txtProject.Enabled = true;
+                txtProject.Focus();
+            }
+
+            dtpActionTimeFrom.Value = dtpActionTimeTo.Value;
+            btnCancel.Enabled = true;
+            lblActionCode.Text = "(New)";
+
+            this.SetStatus("Tip: Hit Up Arrow Key to select/search existing values.");
         }
 
         private void tmrTime_Tick(object sender, EventArgs e)
@@ -97,7 +176,7 @@ namespace MyDay
                 this.Hide();
             }
         }
-        
+
         private void NewAction_Deactivate(object sender, EventArgs e)
         {
             this.Hide();
@@ -106,6 +185,211 @@ namespace MyDay
         private void minimizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private void txtFields_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (sender is AutoCompleteBox)
+                {
+                    AutoCompleteBox ctrl = (AutoCompleteBox)sender;
+                    string val = ctrl.Text.Trim();
+
+                    PictureBox newPic = null;
+
+                    if (ctrl == txtProject)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.Projects
+                                        where t.ProjectCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                            {
+                                newPic = pbNewProject;
+                                txtTask.AutoCompleteList = null;
+                            }
+                            else
+                            {
+                                ctrl.Text = row.ProjectCode;
+
+                                var tasksQuery = from t in db.Tasks
+                                                 where t.ProjectCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                                 orderby t.TaskCode
+                                                 select t.TaskCode;
+
+                                txtTask.AutoCompleteList = tasksQuery.ToList();
+                            }
+                        }
+                    }
+                    else if (ctrl == txtTask)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+                        
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.Tasks
+                                        where t.ProjectCode.Equals(txtProject.Text.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                        && t.TaskCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                            {
+                                newPic = pbNewTask;
+                                txtEstEffort.Text = String.Empty;
+                            }
+                            else
+                            {
+                                ctrl.Text = row.TaskCode;
+                                txtEstEffort.Text = row.EstimatedEffortHours.HasValue ? Convert.ToDouble(row.EstimatedEffortHours).ToString("F2") : ""; 
+                            }
+                        }
+                    }
+                    else if (ctrl == txtTaskType)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+                        
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.TaskTypes
+                                        where t.TaskTypeCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                                newPic = pbNewTaskType;
+                            else
+                                ctrl.Text = row.TaskTypeCode;
+                        }
+                    }
+                    else if (ctrl == txtTaskType)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+                        
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.TaskTypes
+                                        where t.TaskTypeCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                                newPic = pbNewTaskType;
+                            else
+                                ctrl.Text = row.TaskTypeCode;
+                        }
+                    }
+                    else if (ctrl == txtTaskStatus)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+                        
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.TaskStatuses
+                                        where t.TaskStatusCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                                newPic = pbNewTaskStatus;
+                            else
+                                ctrl.Text = row.TaskStatusCode;
+                        }
+                    }
+                    else if (ctrl == txtEstEffort)
+                    {
+                        if (!String.IsNullOrEmpty(val))
+                        {
+                            double dblVal;
+                            if (!Double.TryParse(val, out dblVal))
+                            {
+                                this.SetStatus("Please enter a valid decimal value");
+                                return;
+                            }
+                            else
+                                ctrl.Text = dblVal.ToString("F2");
+                        }
+                    }
+                    else if (ctrl == txtAction)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+
+                        if (lblActionCode.Text.Equals("(New)"))
+                            newPic = pbNewAction;
+                    }
+                    else if (ctrl == txtActionType)
+                    {
+                        if (String.IsNullOrEmpty(val))
+                            return;
+
+                        using (MyDayData db = new MyDayData())
+                        {
+                            var query = from t in db.ActionTypes
+                                        where t.ActionTypeCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                        select t;
+
+                            var row = query.FirstOrDefault();
+                            if (row == null)
+                                newPic = pbNewActionType;
+                            else
+                                ctrl.Text = row.ActionTypeCode;
+                        }
+                    }
+
+                    this.MoveToNextControl(ctrl, newPic);
+                }
+                else if (sender is DateTimePicker)
+                {
+                    DateTimePicker ctrl = (DateTimePicker)sender;
+
+                    if (ctrl == dtpActionTimeTo)
+                    {
+                        if (dtpActionTimeTo.Value < dtpActionTimeFrom.Value)
+                        {
+                            this.SetStatus("The Action End Time must be greater than the Action Start Time");
+                            return;
+                        }
+                    }
+
+                    this.MoveToNextControl(ctrl);
+                }
+            }
+        }
+
+        private void Save()
+        {
+            try
+            {
+
+                this.ResetControls(true);
+                this.SetStatus("The specified Action was saved successfully");
+            }
+            catch (Exception ex)
+            {
+                this.SetStatus(ex);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.ResetControls();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            this.Save();
         }
 
     }
