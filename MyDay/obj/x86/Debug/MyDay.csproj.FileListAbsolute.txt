@@ -17,7 +17,6 @@ D:\Temp\MyDay\MyDay\Bin\MyDay.exe.config
 D:\Temp\MyDay\MyDay\Bin\MyDay.pdb
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\ResolveAssemblyReference.cache
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.ActionTypes.resources
-D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.NewAction.resources
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.Projects.resources
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.TaskTypes.resources
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.FormBase.resources
@@ -29,3 +28,4 @@ D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.exe
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.pdb
 D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.SearchList.resources
 D:\Temp\MyDay\MyDay\Bin\MyDay.exe
+D:\Temp\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.Action.resources

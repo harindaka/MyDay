@@ -8,12 +8,29 @@ namespace MyDay
 {
     public class AutoCompleteBox : TextBox
     {
+        public event EventHandler Search;
+        public event EventHandler SearchComplete;
+
         List<string> _autoCompleteList;
 
         public AutoCompleteBox()
             : base()
         {
             this.SearchListCaption = "Search";
+        }
+
+        protected virtual void OnSearch(EventArgs e)
+        {
+            EventHandler evnt = this.Search;
+            if (evnt != null)
+                this.Search(this, e);
+        }
+
+        protected virtual void OnSearchComplete(EventArgs e)
+        {
+            EventHandler evnt = this.SearchComplete;
+            if (evnt != null)
+                this.SearchComplete(this, e);
         }
 
         public string SearchListCaption { get; set; }
@@ -44,9 +61,11 @@ namespace MyDay
         protected override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-
+                        
             if (e.KeyCode == Keys.Up)
             {
+                this.OnSearch(new EventArgs());
+
                 SearchList list = new SearchList();
                 list.Source = _autoCompleteList;
                 list.SearchTerm = this.Text;
@@ -61,7 +80,7 @@ namespace MyDay
                     this.SelectAll();
                 }
 
-                this.Parent.Show();
+                this.OnSearchComplete(new EventArgs());
             }
         }
     }

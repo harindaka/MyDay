@@ -10,11 +10,12 @@ using System.Linq;
 
 namespace MyDay
 {
-    public partial class NewAction : MyDay.FormBase
+    public partial class Action : MyDay.FormBase
     {
         bool _exitApp;
+        bool _keepActive;
 
-        public NewAction()
+        public Action()
         {
             InitializeComponent();
 
@@ -27,15 +28,6 @@ namespace MyDay
 
         private void Initialize()
         {
-            using (var db = new MyDayData())
-            {
-                var query = from p in db.Projects
-                            orderby p.ProjectCode
-                            select p.ProjectCode;
-
-                txtProject.AutoCompleteList = query.ToList();
-            }
-
             this.ResetControls();
         }
 
@@ -72,8 +64,8 @@ namespace MyDay
             Control nextCtrl = this.GetNextControl(currentControl);
             nextCtrl.Enabled = true;
             nextCtrl.Focus();
-            if (nextCtrl is AutoCompleteBox)
-                ((AutoCompleteBox)nextCtrl).SelectAll();
+            if (nextCtrl is TextBox)
+                ((TextBox)nextCtrl).SelectAll();
 
             currentControl.Enabled = false;
 
@@ -83,30 +75,45 @@ namespace MyDay
             this.SetStatus(String.Empty);
         }
 
-        private void ResetControls(bool sameTask = false)
+        private void ResetControls(bool sameProject = false)
         {
+            using (var db = new MyDayData())
+            {
+                var projectQuery = from t in db.Projects
+                                   orderby t.ProjectCode
+                                   select t.ProjectCode;
+
+                txtProject.AutoCompleteList = projectQuery.ToList();
+
+                var taskTypeQuery = from t in db.TaskTypes
+                                    orderby t.TaskTypeCode
+                                    select t.TaskTypeCode;
+
+                txtTaskType.AutoCompleteList = taskTypeQuery.ToList();
+
+                var taskStatusQuery = from t in db.TaskStatuses
+                                      orderby t.TaskStatusCode
+                                      select t.TaskStatusCode;
+
+                txtTaskStatus.AutoCompleteList = taskStatusQuery.ToList();
+
+                var actionTypeQuery = from t in db.ActionTypes
+                                      orderby t.ActionTypeCode
+                                      select t.ActionTypeCode;
+
+                txtActionType.AutoCompleteList = actionTypeQuery.ToList();
+            }
+
             foreach (Control ctrl in this.pnlFields.Controls)
             {
                 if (!(ctrl is Label))
                 {
                     ctrl.Enabled = false;
-                    if (ctrl is AutoCompleteBox && !sameTask)
-                        ctrl.Text = String.Empty;                    
+                    if (ctrl is TextBox && !(sameProject && ctrl == txtProject))
+                        ctrl.Text = String.Empty;
                     else if (ctrl is PictureBox)
                         ctrl.Visible = false;
                 }
-            }
-
-            if (sameTask)
-            {
-                txtAction.Text = String.Empty;
-                txtAction.Enabled = true;
-                txtAction.Focus();
-            }
-            else
-            {
-                txtProject.Enabled = true;
-                txtProject.Focus();
             }
 
             dtpActionTimeFrom.Value = dtpActionTimeTo.Value;
@@ -114,6 +121,11 @@ namespace MyDay
             lblActionCode.Text = "(New)";
 
             this.SetStatus("Tip: Hit Up Arrow Key to select/search existing values.");
+
+            txtProject.Enabled = true;
+            txtProject.Focus();
+
+            this.txtFields_KeyUp(txtProject, new KeyEventArgs(Keys.Enter));
         }
 
         private void tmrTime_Tick(object sender, EventArgs e)
@@ -179,7 +191,8 @@ namespace MyDay
 
         private void NewAction_Deactivate(object sender, EventArgs e)
         {
-            this.Hide();
+            if (!_keepActive)
+                this.Hide();
         }
 
         private void minimizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,9 +204,9 @@ namespace MyDay
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (sender is AutoCompleteBox)
+                if (sender is TextBox)
                 {
-                    AutoCompleteBox ctrl = (AutoCompleteBox)sender;
+                    TextBox ctrl = (TextBox)sender;
                     string val = ctrl.Text.Trim();
 
                     PictureBox newPic = null;
@@ -232,7 +245,7 @@ namespace MyDay
                     {
                         if (String.IsNullOrEmpty(val))
                             return;
-                        
+
                         using (MyDayData db = new MyDayData())
                         {
                             var query = from t in db.Tasks
@@ -244,12 +257,16 @@ namespace MyDay
                             if (row == null)
                             {
                                 newPic = pbNewTask;
+                                txtTaskType.Text = String.Empty;
+                                txtTaskStatus.Text = String.Empty;
                                 txtEstEffort.Text = String.Empty;
                             }
                             else
                             {
                                 ctrl.Text = row.TaskCode;
-                                txtEstEffort.Text = row.EstimatedEffortHours.HasValue ? Convert.ToDouble(row.EstimatedEffortHours).ToString("F2") : ""; 
+                                txtTaskType.Text = row.TaskTypeCode;
+                                txtTaskStatus.Text = row.TaskStatusCode;
+                                txtEstEffort.Text = row.EstimatedEffortHours.HasValue ? Convert.ToDouble(row.EstimatedEffortHours).ToString("F2") : "";
                             }
                         }
                     }
@@ -257,7 +274,7 @@ namespace MyDay
                     {
                         if (String.IsNullOrEmpty(val))
                             return;
-                        
+
                         using (MyDayData db = new MyDayData())
                         {
                             var query = from t in db.TaskTypes
@@ -275,7 +292,7 @@ namespace MyDay
                     {
                         if (String.IsNullOrEmpty(val))
                             return;
-                        
+
                         using (MyDayData db = new MyDayData())
                         {
                             var query = from t in db.TaskTypes
@@ -293,7 +310,7 @@ namespace MyDay
                     {
                         if (String.IsNullOrEmpty(val))
                             return;
-                        
+
                         using (MyDayData db = new MyDayData())
                         {
                             var query = from t in db.TaskStatuses
@@ -311,14 +328,14 @@ namespace MyDay
                     {
                         if (!String.IsNullOrEmpty(val))
                         {
-                            double dblVal;
-                            if (!Double.TryParse(val, out dblVal))
+                            decimal decVal;
+                            if (!Decimal.TryParse(val, out decVal) || decVal <= 0)
                             {
                                 this.SetStatus("Please enter a valid decimal value");
                                 return;
                             }
                             else
-                                ctrl.Text = dblVal.ToString("F2");
+                                ctrl.Text = decVal.ToString("F2");
                         }
                     }
                     else if (ctrl == txtAction)
@@ -356,7 +373,7 @@ namespace MyDay
 
                     if (ctrl == dtpActionTimeTo)
                     {
-                        if (dtpActionTimeTo.Value < dtpActionTimeFrom.Value)
+                        if (dtpActionTimeTo.Value <= dtpActionTimeFrom.Value)
                         {
                             this.SetStatus("The Action End Time must be greater than the Action Start Time");
                             return;
@@ -366,12 +383,117 @@ namespace MyDay
                     this.MoveToNextControl(ctrl);
                 }
             }
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (sender == txtAction)
+                {
+                    AutoCompleteBox ctrl = (AutoCompleteBox)sender;
+
+                    SearchList list = new SearchList();
+
+                }
+            }
         }
 
         private void Save()
         {
             try
             {
+                using (MyDayData db = new MyDayData())
+                {
+                    string projectCode = txtProject.Text.Trim();
+                    string taskCode = txtTask.Text.Trim();
+                    string taskTypeCode = txtTaskType.Text.Trim();
+                    string taskStatusCode = txtTaskStatus.Text.Trim();
+                    decimal? estEff = null;
+                    string estEffStr = txtEstEffort.Text.Trim();
+                    if (!String.IsNullOrEmpty(estEffStr))
+                        estEff = Convert.ToDecimal(estEffStr);
+
+                    string action = txtAction.Text.Trim();
+                    DateTime actionStartTime = dtpActionDate.Value.Date.Add(dtpActionTimeFrom.Value.Subtract(dtpActionTimeFrom.Value.Date));
+                    DateTime actionEndTime = dtpActionDate.Value.Date.Add(dtpActionTimeTo.Value.Subtract(dtpActionTimeTo.Value.Date));
+                    string actionTypeCode = txtActionType.Text.Trim();
+
+                    if (pbNewProject.Visible)
+                    {
+                        Project newProject = new Project();
+                        newProject.ProjectCode = projectCode;
+                        db.AddToProjects(newProject);
+                    }
+
+                    if (pbNewTaskType.Visible)
+                    {
+                        TaskType newTaskType = new TaskType();
+                        newTaskType.TaskTypeCode = taskTypeCode;
+                        db.AddToTaskTypes(newTaskType);
+                    }
+
+                    if (pbNewTaskStatus.Visible)
+                    {
+                        TaskStatus newTaskStatus = new TaskStatus();
+                        newTaskStatus.TaskStatusCode = taskStatusCode;
+                        db.AddToTaskStatuses(newTaskStatus);
+                    }
+
+                    if (pbNewActionType.Visible)
+                    {
+                        ActionType newActionType = new ActionType();
+                        newActionType.ActionTypeCode = actionTypeCode;
+                        db.AddToActionTypes(newActionType);
+                    }
+
+                    if (pbNewTask.Visible)
+                    {
+                        Task newTask = new Task();
+                        newTask.ProjectCode = projectCode;
+                        newTask.TaskCode = taskCode;
+                        newTask.TaskTypeCode = taskTypeCode;
+                        newTask.TaskStatusCode = taskStatusCode;
+                        newTask.EstimatedEffortHours = estEff;
+                        db.AddToTasks(newTask);
+                    }
+                    else
+                    {
+                        var query = from t in db.Tasks
+                                    where t.ProjectCode.Equals(projectCode, StringComparison.InvariantCultureIgnoreCase)
+                                    && t.TaskCode.Equals(taskCode, StringComparison.InvariantCultureIgnoreCase)
+                                    select t;
+
+                        Task currentTask = query.First();
+                        currentTask.TaskTypeCode = taskTypeCode;
+                        currentTask.TaskStatusCode = taskStatusCode;
+                        currentTask.EstimatedEffortHours = estEff;
+                    }
+
+                    if (lblActionCode.Text == "(New)")
+                    {
+                        MyDay.Data.Action newAction = new MyDay.Data.Action();
+                        newAction.ProjectCode = projectCode;
+                        newAction.TaskCode = taskCode;
+                        newAction.ActionTypeCode = actionTypeCode;
+                        newAction.FromTime = actionStartTime;
+                        newAction.ToTime = actionEndTime;
+                        newAction.ActionComments = action;
+                        db.AddToActions(newAction);
+                    }
+                    else
+                    {
+                        long actionCode = Convert.ToInt64(lblActionCode.Text);
+
+                        var query = from t in db.Actions
+                                    where t.ActionCode == actionCode
+                                    select t;
+
+                        MyDay.Data.Action currentAction = query.First();
+                        currentAction.ActionTypeCode = actionTypeCode;
+                        currentAction.FromTime = actionStartTime;
+                        currentAction.ToTime = actionEndTime;
+                        currentAction.ActionComments = action;
+                    }
+
+                    db.SaveChanges();
+                }
 
                 this.ResetControls(true);
                 this.SetStatus("The specified Action was saved successfully");
@@ -390,6 +512,16 @@ namespace MyDay
         private void btnSave_Click(object sender, EventArgs e)
         {
             this.Save();
+        }
+
+        private void txtFields_SearchComplete(object sender, EventArgs e)
+        {
+            _keepActive = false;
+        }
+
+        private void txtFields_Search(object sender, EventArgs e)
+        {
+            _keepActive = true;
         }
 
     }

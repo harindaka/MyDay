@@ -64,11 +64,11 @@
     <Compile Include="SearchList.Designer.cs">
       <DependentUpon>SearchList.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewAction.cs">
+    <Compile Include="Action.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewAction.Designer.cs">
-      <DependentUpon>NewAction.cs</DependentUpon>
+    <Compile Include="Action.Designer.cs">
+      <DependentUpon>Action.cs</DependentUpon>
     </Compile>
     <Compile Include="Projects.cs">
       <SubType>Form</SubType>
@@ -107,8 +107,8 @@
     <EmbeddedResource Include="SearchList.resx">
       <DependentUpon>SearchList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewAction.resx">
-      <DependentUpon>NewAction.cs</DependentUpon>
+    <EmbeddedResource Include="Action.resx">
+      <DependentUpon>Action.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Projects.resx">
       <DependentUpon>Projects.cs</DependentUpon>

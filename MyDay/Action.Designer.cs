@@ -1,6 +1,6 @@
 ﻿namespace MyDay
 {
-    partial class NewAction
+    partial class Action
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewAction));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Action));
             this.tmrTime = new System.Windows.Forms.Timer(this.components);
             this.lblTime = new System.Windows.Forms.Label();
             this.mnuMenu = new System.Windows.Forms.MenuStrip();
@@ -51,7 +51,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtTaskStatus = new MyDay.AutoCompleteBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtEstEffort = new MyDay.AutoCompleteBox();
+            this.txtEstEffort = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtAction = new MyDay.AutoCompleteBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -191,6 +191,8 @@
             this.txtProject.SearchListCaption = "Search Projects";
             this.txtProject.Size = new System.Drawing.Size(336, 20);
             this.txtProject.TabIndex = 0;
+            this.txtProject.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtProject.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtProject.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label1
@@ -209,9 +211,11 @@
             this.txtTask.Location = new System.Drawing.Point(127, 39);
             this.txtTask.MaxLength = 100;
             this.txtTask.Name = "txtTask";
-            this.txtTask.SearchListCaption = "Search Projects";
+            this.txtTask.SearchListCaption = "Search Tasks";
             this.txtTask.Size = new System.Drawing.Size(336, 20);
             this.txtTask.TabIndex = 1;
+            this.txtTask.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTask.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label2
@@ -239,9 +243,11 @@
             this.txtTaskType.Location = new System.Drawing.Point(127, 66);
             this.txtTaskType.MaxLength = 100;
             this.txtTaskType.Name = "txtTaskType";
-            this.txtTaskType.SearchListCaption = "Search Projects";
+            this.txtTaskType.SearchListCaption = "Search Task Types";
             this.txtTaskType.Size = new System.Drawing.Size(336, 20);
             this.txtTaskType.TabIndex = 2;
+            this.txtTaskType.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTaskType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label4
@@ -260,9 +266,11 @@
             this.txtTaskStatus.Location = new System.Drawing.Point(127, 94);
             this.txtTaskStatus.MaxLength = 100;
             this.txtTaskStatus.Name = "txtTaskStatus";
-            this.txtTaskStatus.SearchListCaption = "Search Projects";
+            this.txtTaskStatus.SearchListCaption = "Search Task Statuses";
             this.txtTaskStatus.Size = new System.Drawing.Size(336, 20);
             this.txtTaskStatus.TabIndex = 3;
+            this.txtTaskStatus.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTaskStatus.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskStatus.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label5
@@ -276,12 +284,10 @@
             // 
             // txtEstEffort
             // 
-            this.txtEstEffort.AutoCompleteList = null;
             this.txtEstEffort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtEstEffort.Location = new System.Drawing.Point(127, 120);
             this.txtEstEffort.MaxLength = 4;
             this.txtEstEffort.Name = "txtEstEffort";
-            this.txtEstEffort.SearchListCaption = "Search Projects";
             this.txtEstEffort.Size = new System.Drawing.Size(336, 20);
             this.txtEstEffort.TabIndex = 4;
             this.txtEstEffort.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
@@ -303,9 +309,11 @@
             this.txtAction.MaxLength = 500;
             this.txtAction.Multiline = true;
             this.txtAction.Name = "txtAction";
-            this.txtAction.SearchListCaption = "Search Projects";
+            this.txtAction.SearchListCaption = "Search Actions";
             this.txtAction.Size = new System.Drawing.Size(336, 104);
             this.txtAction.TabIndex = 5;
+            this.txtAction.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtAction.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtAction.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label7
@@ -363,9 +371,11 @@
             this.txtActionType.Location = new System.Drawing.Point(127, 290);
             this.txtActionType.MaxLength = 100;
             this.txtActionType.Name = "txtActionType";
-            this.txtActionType.SearchListCaption = "Search Projects";
+            this.txtActionType.SearchListCaption = "Search Action Types";
             this.txtActionType.Size = new System.Drawing.Size(336, 20);
             this.txtActionType.TabIndex = 9;
+            this.txtActionType.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtActionType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtActionType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label10
@@ -517,7 +527,7 @@
             this.pbNewProject.TabIndex = 23;
             this.pbNewProject.TabStop = false;
             // 
-            // NewAction
+            // Action
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,9 +541,9 @@
             this.MainMenuStrip = this.mnuMenu;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "NewAction";
+            this.Name = "Action";
             this.ShowInTaskbar = false;
-            this.Text = "New Action";
+            this.Text = "Action";
             this.TopMost = true;
             this.Deactivate += new System.EventHandler(this.NewAction_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewAction_FormClosing);
@@ -578,7 +588,7 @@
         private System.Windows.Forms.Label label4;
         private AutoCompleteBox txtTaskStatus;
         private System.Windows.Forms.Label label5;
-        private AutoCompleteBox txtEstEffort;
+        private System.Windows.Forms.TextBox txtEstEffort;
         private System.Windows.Forms.Label label6;
         private AutoCompleteBox txtAction;
         private System.Windows.Forms.Label label7;
