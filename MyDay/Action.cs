@@ -52,6 +52,8 @@ namespace MyDay
             else if (ctrl == dtpActionTimeTo)
                 return txtActionType;
             else if (ctrl == txtActionType)
+                return txtActionTags;
+            else if (ctrl == txtActionTags)
                 return btnSave;
             else if (ctrl == btnSave)
                 return txtProject;
@@ -111,6 +113,8 @@ namespace MyDay
                     ctrl.Enabled = false;
                     if (ctrl is TextBox && !(sameProject && ctrl == txtProject))
                         ctrl.Text = String.Empty;
+                    if (ctrl is TagPanel)
+                        ((TagPanel)ctrl).ClearTags();
                     else if (ctrl is PictureBox)
                         ctrl.Visible = false;
                 }
@@ -364,6 +368,17 @@ namespace MyDay
                                 ctrl.Text = row.ActionTypeCode;
                         }
                     }
+                    else if (ctrl == txtActionTags)
+                    {
+                        if (!String.IsNullOrEmpty(val))
+                        {
+                            if (!tpTags.ContainsTag(val))
+                                tpTags.AddTag(val, val);
+
+                            txtActionTags.Text = String.Empty;
+                            return;
+                        }
+                    }
 
                     this.MoveToNextControl(ctrl, newPic);
                 }
@@ -523,6 +538,12 @@ namespace MyDay
         {
             _keepActive = true;
         }
+
+        private void txtActionTags_EnabledChanged(object sender, EventArgs e)
+        {
+            tpTags.Enabled = txtActionTags.Enabled;
+        }
+
 
     }
 }

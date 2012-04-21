@@ -65,6 +65,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.dtpActionTimeTo = new System.Windows.Forms.DateTimePicker();
             this.pnlFields = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtActionTags = new MyDay.AutoCompleteBox();
+            this.tpTags = new MyDay.TagPanel();
             this.lblActionCode = new System.Windows.Forms.Label();
             this.pbNewAction = new System.Windows.Forms.PictureBox();
             this.pbNewActionType = new System.Windows.Forms.PictureBox();
@@ -95,7 +98,7 @@
             this.lblTime.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblTime.Location = new System.Drawing.Point(0, 24);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(507, 22);
+            this.lblTime.Size = new System.Drawing.Size(515, 22);
             this.lblTime.TabIndex = 1;
             this.lblTime.Text = "Time";
             this.lblTime.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -108,7 +111,7 @@
             this.mnuMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMenu.Name = "mnuMenu";
             this.mnuMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.mnuMenu.Size = new System.Drawing.Size(507, 24);
+            this.mnuMenu.Size = new System.Drawing.Size(515, 24);
             this.mnuMenu.TabIndex = 2;
             this.mnuMenu.Text = "menuStrip1";
             // 
@@ -389,23 +392,25 @@
             // 
             // btnSave
             // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(342, 332);
+            this.btnSave.Location = new System.Drawing.Point(347, 415);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 10;
+            this.btnSave.TabIndex = 11;
             this.btnSave.Text = "&Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(423, 332);
+            this.btnCancel.Location = new System.Drawing.Point(428, 415);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -423,6 +428,9 @@
             // 
             // pnlFields
             // 
+            this.pnlFields.Controls.Add(this.label11);
+            this.pnlFields.Controls.Add(this.txtActionTags);
+            this.pnlFields.Controls.Add(this.tpTags);
             this.pnlFields.Controls.Add(this.lblActionCode);
             this.pnlFields.Controls.Add(this.pbNewAction);
             this.pnlFields.Controls.Add(this.label1);
@@ -455,8 +463,41 @@
             this.pnlFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFields.Location = new System.Drawing.Point(0, 46);
             this.pnlFields.Name = "pnlFields";
-            this.pnlFields.Size = new System.Drawing.Size(507, 373);
+            this.pnlFields.Size = new System.Drawing.Size(515, 451);
             this.pnlFields.TabIndex = 29;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(15, 318);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.TabIndex = 33;
+            this.label11.Text = "Action Tags";
+            // 
+            // txtActionTags
+            // 
+            this.txtActionTags.AutoCompleteList = null;
+            this.txtActionTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtActionTags.Location = new System.Drawing.Point(127, 316);
+            this.txtActionTags.MaxLength = 100;
+            this.txtActionTags.Name = "txtActionTags";
+            this.txtActionTags.SearchListCaption = "Search Action Types";
+            this.txtActionTags.Size = new System.Drawing.Size(336, 20);
+            this.txtActionTags.TabIndex = 10;
+            this.txtActionTags.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtActionTags.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
+            this.txtActionTags.EnabledChanged += new System.EventHandler(this.txtActionTags_EnabledChanged);
+            this.txtActionTags.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
+            // 
+            // tpTags
+            // 
+            this.tpTags.AutoScroll = true;
+            this.tpTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tpTags.Location = new System.Drawing.Point(18, 342);
+            this.tpTags.Name = "tpTags";
+            this.tpTags.Size = new System.Drawing.Size(445, 67);
+            this.tpTags.TabIndex = 31;
             // 
             // lblActionCode
             // 
@@ -533,7 +574,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(507, 441);
+            this.ClientSize = new System.Drawing.Size(515, 519);
             this.Controls.Add(this.pnlFields);
             this.Controls.Add(this.lblTime);
             this.Controls.Add(this.mnuMenu);
@@ -610,5 +651,8 @@
         private System.Windows.Forms.Panel pnlFields;
         private System.Windows.Forms.PictureBox pbNewAction;
         private System.Windows.Forms.Label lblActionCode;
+        private TagPanel tpTags;
+        private System.Windows.Forms.Label label11;
+        private AutoCompleteBox txtActionTags;
     }
 }

@@ -58,6 +58,9 @@
     <Compile Include="AutoCompleteBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TagPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SearchList.cs">
       <SubType>Form</SubType>
     </Compile>
