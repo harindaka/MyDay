@@ -2,14 +2,20 @@
 <Schema Namespace="MyDayDataModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="MyDayDataModelStoreContainer">
     <EntitySet Name="Actions" EntityType="MyDayDataModel.Store.Actions" store:Type="Tables" />
+    <EntitySet Name="ActionTags" EntityType="MyDayDataModel.Store.ActionTags" store:Type="Tables" />
     <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.Store.ActionTypes" store:Type="Tables" />
     <EntitySet Name="Projects" EntityType="MyDayDataModel.Store.Projects" store:Type="Tables" />
+    <EntitySet Name="Tags" EntityType="MyDayDataModel.Store.Tags" store:Type="Tables" />
     <EntitySet Name="Tasks" EntityType="MyDayDataModel.Store.Tasks" store:Type="Tables" />
     <EntitySet Name="TaskStatuses" EntityType="MyDayDataModel.Store.TaskStatuses" store:Type="Tables" />
     <EntitySet Name="TaskTypes" EntityType="MyDayDataModel.Store.TaskTypes" store:Type="Tables" />
     <AssociationSet Name="FK_Actions_1_0" Association="MyDayDataModel.Store.FK_Actions_1_0">
       <End Role="ActionTypes" EntitySet="ActionTypes" />
       <End Role="Actions" EntitySet="Actions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ActionTags_0_0" Association="MyDayDataModel.Store.FK_ActionTags_0_0">
+      <End Role="Actions" EntitySet="Actions" />
+      <End Role="ActionTags" EntitySet="ActionTags" />
     </AssociationSet>
     <AssociationSet Name="FK_Tasks_0_0" Association="MyDayDataModel.Store.FK_Tasks_0_0">
       <End Role="TaskStatuses" EntitySet="TaskStatuses" />
@@ -36,6 +42,14 @@
     <Property Name="ToTime" Type="datetime" Nullable="false" />
     <Property Name="ActionComments" Type="nvarchar" Nullable="false" MaxLength="500" />
   </EntityType>
+  <EntityType Name="ActionTags">
+    <Key>
+      <PropertyRef Name="ActionCode" />
+      <PropertyRef Name="TagCode" />
+    </Key>
+    <Property Name="ActionCode" Type="integer" Nullable="false" />
+    <Property Name="TagCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
   <EntityType Name="ActionTypes">
     <Key>
       <PropertyRef Name="ActionTypeCode" />
@@ -47,6 +61,12 @@
       <PropertyRef Name="ProjectCode" />
     </Key>
     <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="TagCode" />
+    </Key>
+    <Property Name="TagCode" Type="nvarchar" Nullable="false" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
       warning 6035: The relationship 'FK_Actions_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -84,6 +104,18 @@
       </Principal>
       <Dependent Role="Actions">
         <PropertyRef Name="ActionTypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ActionTags_0_0">
+    <End Role="Actions" Type="MyDayDataModel.Store.Actions" Multiplicity="1" />
+    <End Role="ActionTags" Type="MyDayDataModel.Store.ActionTags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actions">
+        <PropertyRef Name="ActionCode" />
+      </Principal>
+      <Dependent Role="ActionTags">
+        <PropertyRef Name="ActionCode" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

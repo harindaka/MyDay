@@ -23,6 +23,12 @@
       <End Role="TaskTypes" EntitySet="TaskTypes" />
       <End Role="Tasks" EntitySet="Tasks" />
     </AssociationSet>
+    <EntitySet Name="ActionTags" EntityType="MyDayDataModel.ActionTag" />
+    <EntitySet Name="Tags" EntityType="MyDayDataModel.Tag" />
+    <AssociationSet Name="FK_ActionTags_0_0" Association="MyDayDataModel.FK_ActionTags_0_0">
+      <End Role="Action" EntitySet="Actions" />
+      <End Role="ActionTag" EntitySet="ActionTags" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Action">
     <Key>
@@ -36,6 +42,7 @@
     <Property Name="ToTime" Type="DateTime" Nullable="false" />
     <Property Name="ActionComments" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="ActionType" Relationship="MyDayDataModel.FK_Actions_1_0" FromRole="Actions" ToRole="ActionTypes" />
+    <NavigationProperty Name="ActionTags" Relationship="MyDayDataModel.FK_ActionTags_0_0" FromRole="Action" ToRole="ActionTag" />
   </EntityType>
   <EntityType Name="ActionType">
     <Key>
@@ -124,6 +131,33 @@
       </Principal>
       <Dependent Role="Tasks">
         <PropertyRef Name="TaskTypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ActionTag">
+    <Key>
+      <PropertyRef Name="ActionCode" />
+      <PropertyRef Name="TagCode" />
+    </Key>
+    <Property Type="Int64" Name="ActionCode" Nullable="false" />
+    <Property Type="String" Name="TagCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Action" Relationship="MyDayDataModel.FK_ActionTags_0_0" FromRole="ActionTag" ToRole="Action" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="TagCode" />
+    </Key>
+    <Property Type="String" Name="TagCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_ActionTags_0_0">
+    <End Type="MyDayDataModel.Action" Role="Action" Multiplicity="1" />
+    <End Type="MyDayDataModel.ActionTag" Role="ActionTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Action">
+        <PropertyRef Name="ActionCode" />
+      </Principal>
+      <Dependent Role="ActionTag">
+        <PropertyRef Name="ActionCode" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

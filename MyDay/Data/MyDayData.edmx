@@ -7,14 +7,20 @@
     <Schema Namespace="MyDayDataModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="MyDayDataModelStoreContainer">
           <EntitySet Name="Actions" EntityType="MyDayDataModel.Store.Actions" store:Type="Tables" />
+          <EntitySet Name="ActionTags" EntityType="MyDayDataModel.Store.ActionTags" store:Type="Tables" />
           <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.Store.ActionTypes" store:Type="Tables" />
           <EntitySet Name="Projects" EntityType="MyDayDataModel.Store.Projects" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="MyDayDataModel.Store.Tags" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="MyDayDataModel.Store.Tasks" store:Type="Tables" />
           <EntitySet Name="TaskStatuses" EntityType="MyDayDataModel.Store.TaskStatuses" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="MyDayDataModel.Store.TaskTypes" store:Type="Tables" />
           <AssociationSet Name="FK_Actions_1_0" Association="MyDayDataModel.Store.FK_Actions_1_0">
             <End Role="ActionTypes" EntitySet="ActionTypes" />
             <End Role="Actions" EntitySet="Actions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActionTags_0_0" Association="MyDayDataModel.Store.FK_ActionTags_0_0">
+            <End Role="Actions" EntitySet="Actions" />
+            <End Role="ActionTags" EntitySet="ActionTags" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_0_0" Association="MyDayDataModel.Store.FK_Tasks_0_0">
             <End Role="TaskStatuses" EntitySet="TaskStatuses" />
@@ -41,6 +47,14 @@
           <Property Name="ToTime" Type="datetime" Nullable="false" />
           <Property Name="ActionComments" Type="nvarchar" Nullable="false" MaxLength="500" />
         </EntityType>
+        <EntityType Name="ActionTags">
+          <Key>
+            <PropertyRef Name="ActionCode" />
+            <PropertyRef Name="TagCode" />
+          </Key>
+          <Property Name="ActionCode" Type="integer" Nullable="false" />
+          <Property Name="TagCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
         <EntityType Name="ActionTypes">
           <Key>
             <PropertyRef Name="ActionTypeCode" />
@@ -52,6 +66,12 @@
             <PropertyRef Name="ProjectCode" />
           </Key>
           <Property Name="ProjectCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="TagCode" />
+          </Key>
+          <Property Name="TagCode" Type="nvarchar" Nullable="false" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6035: The relationship 'FK_Actions_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
@@ -89,6 +109,18 @@
             </Principal>
             <Dependent Role="Actions">
               <PropertyRef Name="ActionTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActionTags_0_0">
+          <End Role="Actions" Type="MyDayDataModel.Store.Actions" Multiplicity="1" />
+          <End Role="ActionTags" Type="MyDayDataModel.Store.ActionTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actions">
+              <PropertyRef Name="ActionCode" />
+            </Principal>
+            <Dependent Role="ActionTags">
+              <PropertyRef Name="ActionCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -155,6 +187,12 @@
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
+          <EntitySet Name="ActionTags" EntityType="MyDayDataModel.ActionTag" />
+          <EntitySet Name="Tags" EntityType="MyDayDataModel.Tag" />
+          <AssociationSet Name="FK_ActionTags_0_0" Association="MyDayDataModel.FK_ActionTags_0_0">
+            <End Role="Action" EntitySet="Actions" />
+            <End Role="ActionTag" EntitySet="ActionTags" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Action">
           <Key>
@@ -168,6 +206,7 @@
           <Property Name="ToTime" Type="DateTime" Nullable="false" />
           <Property Name="ActionComments" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ActionType" Relationship="MyDayDataModel.FK_Actions_1_0" FromRole="Actions" ToRole="ActionTypes" />
+          <NavigationProperty Name="ActionTags" Relationship="MyDayDataModel.FK_ActionTags_0_0" FromRole="Action" ToRole="ActionTag" />
         </EntityType>
         <EntityType Name="ActionType">
           <Key>
@@ -259,6 +298,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ActionTag">
+          <Key>
+            <PropertyRef Name="ActionCode" />
+            <PropertyRef Name="TagCode" />
+          </Key>
+          <Property Type="Int64" Name="ActionCode" Nullable="false" />
+          <Property Type="String" Name="TagCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Action" Relationship="MyDayDataModel.FK_ActionTags_0_0" FromRole="ActionTag" ToRole="Action" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagCode" />
+          </Key>
+          <Property Type="String" Name="TagCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_ActionTags_0_0">
+          <End Type="MyDayDataModel.Action" Role="Action" Multiplicity="1" />
+          <End Type="MyDayDataModel.ActionTag" Role="ActionTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="ActionCode" />
+            </Principal>
+            <Dependent Role="ActionTag">
+              <PropertyRef Name="ActionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -293,6 +359,21 @@
           <EntitySetMapping Name="TaskTypes"><EntityTypeMapping TypeName="MyDayDataModel.TaskType"><MappingFragment StoreEntitySet="TaskTypes">
             <ScalarProperty Name="TaskTypeCode" ColumnName="TaskTypeCode" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ActionTags">
+            <EntityTypeMapping TypeName="MyDayDataModel.ActionTag">
+              <MappingFragment StoreEntitySet="ActionTags">
+                <ScalarProperty Name="TagCode" ColumnName="TagCode" />
+                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="MyDayDataModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="TagCode" ColumnName="TagCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -339,6 +420,12 @@
           <ConnectorPoint PointX="2.25" PointY="7.0448616536458326" />
           <ConnectorPoint PointX="4.3749975" PointY="7.0448616536458326" />
           <ConnectorPoint PointX="4.3749975" PointY="3.2496956380208331" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="MyDayDataModel.ActionTag" Width="1.5" PointX="7.25" PointY="5.375" Height="1.4279589843749996" />
+        <EntityTypeShape EntityType="MyDayDataModel.Tag" Width="1.5" PointX="5.375" PointY="0.75" Height="1.0992643229166674" />
+        <AssociationConnector Association="MyDayDataModel.FK_ActionTags_0_0" >
+          <ConnectorPoint PointX="6.5" PointY="6.0889794921875" />
+          <ConnectorPoint PointX="7.25" PointY="6.0889794921875" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

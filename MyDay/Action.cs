@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using MyDay.Data;
 using System.Linq;
+using System.Data.Common;
 
 namespace MyDay
 {
@@ -104,6 +105,12 @@ namespace MyDay
                                       select t.ActionTypeCode;
 
                 txtActionType.AutoCompleteList = actionTypeQuery.ToList();
+
+                var tagsQuery = from t in db.Tags
+                                orderby t.TagCode
+                                select t.TagCode;
+
+                txtActionTags.AutoCompleteList = tagsQuery.ToList();
             }
 
             foreach (Control ctrl in this.pnlFields.Controls)
@@ -373,7 +380,27 @@ namespace MyDay
                         if (!String.IsNullOrEmpty(val))
                         {
                             if (!tpTags.ContainsTag(val))
-                                tpTags.AddTag(val, val);
+                            {
+                                string tagCaption = String.Empty;
+
+                                using (MyDayData db = new MyDayData())
+                                {
+                                    var query = from t in db.Tags
+                                                where t.TagCode.Equals(val, StringComparison.InvariantCultureIgnoreCase)
+                                                select t;
+
+                                    var row = query.FirstOrDefault();
+                                    if (row == null)
+                                        tagCaption = val + " (New)";
+                                    else
+                                    {
+                                        val = row.TagCode;
+                                        tagCaption = val;
+                                    }
+                                }
+
+                                tpTags.AddTag(val, tagCaption);
+                            }
 
                             txtActionTags.Text = String.Empty;
                             return;
@@ -429,6 +456,7 @@ namespace MyDay
                     DateTime actionStartTime = dtpActionDate.Value.Date.Add(dtpActionTimeFrom.Value.Subtract(dtpActionTimeFrom.Value.Date));
                     DateTime actionEndTime = dtpActionDate.Value.Date.Add(dtpActionTimeTo.Value.Subtract(dtpActionTimeTo.Value.Date));
                     string actionTypeCode = txtActionType.Text.Trim();
+                    Dictionary<string, string> actionTags = tpTags.GetTags();
 
                     if (pbNewProject.Visible)
                     {
@@ -481,16 +509,18 @@ namespace MyDay
                         currentTask.EstimatedEffortHours = estEff;
                     }
 
+
+                    MyDay.Data.Action actionEnt = null;
                     if (lblActionCode.Text == "(New)")
                     {
-                        MyDay.Data.Action newAction = new MyDay.Data.Action();
-                        newAction.ProjectCode = projectCode;
-                        newAction.TaskCode = taskCode;
-                        newAction.ActionTypeCode = actionTypeCode;
-                        newAction.FromTime = actionStartTime;
-                        newAction.ToTime = actionEndTime;
-                        newAction.ActionComments = action;
-                        db.AddToActions(newAction);
+                        actionEnt = new MyDay.Data.Action();
+                        actionEnt.ProjectCode = projectCode;
+                        actionEnt.TaskCode = taskCode;
+                        actionEnt.ActionTypeCode = actionTypeCode;
+                        actionEnt.FromTime = actionStartTime;
+                        actionEnt.ToTime = actionEndTime;
+                        actionEnt.ActionComments = action;
+                        db.AddToActions(actionEnt);
                     }
                     else
                     {
@@ -500,14 +530,43 @@ namespace MyDay
                                     where t.ActionCode == actionCode
                                     select t;
 
-                        MyDay.Data.Action currentAction = query.First();
-                        currentAction.ActionTypeCode = actionTypeCode;
-                        currentAction.FromTime = actionStartTime;
-                        currentAction.ToTime = actionEndTime;
-                        currentAction.ActionComments = action;
+                        actionEnt = query.First();
+                        actionEnt.ActionTypeCode = actionTypeCode;
+                        actionEnt.FromTime = actionStartTime;
+                        actionEnt.ToTime = actionEndTime;
+                        actionEnt.ActionComments = action;
                     }
 
-                    db.SaveChanges();
+                    using (var txn = db.BeginTransaction())
+                    {
+                        db.SaveChanges();
+
+                        var query = from t in db.ActionTags
+                                    where t.ActionCode == actionEnt.ActionCode
+                                    select t;
+
+                        foreach (var row in query)
+                            db.DeleteObject(row);
+                        
+                        foreach (KeyValuePair<string, string> tag in actionTags)
+                        {
+                            if (tag.Value.EndsWith("(New)") && !tag.Key.Equals(tag.Value))
+                            {
+                                MyDay.Data.Tag newTag = new Tag();
+                                newTag.TagCode = tag.Key;
+                                db.AddToTags(newTag);
+                            }                           
+
+                            MyDay.Data.ActionTag actionTagEnt = new ActionTag();
+                            actionTagEnt.ActionCode = actionEnt.ActionCode;
+                            actionTagEnt.TagCode = tag.Key;
+                            db.AddToActionTags(actionTagEnt);
+                        }
+
+                        db.SaveChanges();
+
+                        txn.Commit();
+                    }
                 }
 
                 this.ResetControls(true);

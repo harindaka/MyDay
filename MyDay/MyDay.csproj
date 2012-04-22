@@ -58,6 +58,7 @@
     <Compile Include="AutoCompleteBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Data\MyDayDataExtentions.cs" />
     <Compile Include="TagPanel.cs">
       <SubType>Component</SubType>
     </Compile>

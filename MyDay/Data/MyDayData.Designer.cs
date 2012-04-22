@@ -22,6 +22,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("MyDayDataModel", "FK_Tasks_2_0", "Projects", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MyDay.Data.Project), "Tasks", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MyDay.Data.Task), true)]
 [assembly: EdmRelationshipAttribute("MyDayDataModel", "FK_Tasks_0_0", "TaskStatuses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MyDay.Data.TaskStatus), "Tasks", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MyDay.Data.Task), true)]
 [assembly: EdmRelationshipAttribute("MyDayDataModel", "FK_Tasks_1_0", "TaskTypes", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MyDay.Data.TaskType), "Tasks", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MyDay.Data.Task), true)]
+[assembly: EdmRelationshipAttribute("MyDayDataModel", "FK_ActionTags_0_0", "Action", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MyDay.Data.Action), "ActionTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MyDay.Data.ActionTag), true)]
 
 #endregion
 
@@ -168,6 +169,38 @@ namespace MyDay.Data
             }
         }
         private ObjectSet<TaskType> _TaskTypes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ActionTag> ActionTags
+        {
+            get
+            {
+                if ((_ActionTags == null))
+                {
+                    _ActionTags = base.CreateObjectSet<ActionTag>("ActionTags");
+                }
+                return _ActionTags;
+            }
+        }
+        private ObjectSet<ActionTag> _ActionTags;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Tag> Tags
+        {
+            get
+            {
+                if ((_Tags == null))
+                {
+                    _Tags = base.CreateObjectSet<Tag>("Tags");
+                }
+                return _Tags;
+            }
+        }
+        private ObjectSet<Tag> _Tags;
 
         #endregion
         #region AddTo Methods
@@ -218,6 +251,22 @@ namespace MyDay.Data
         public void AddToTaskTypes(TaskType taskType)
         {
             base.AddObject("TaskTypes", taskType);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ActionTags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToActionTags(ActionTag actionTag)
+        {
+            base.AddObject("ActionTags", actionTag);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Tags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTags(Tag tag)
+        {
+            base.AddObject("Tags", tag);
         }
 
         #endregion
@@ -476,6 +525,153 @@ namespace MyDay.Data
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MyDayDataModel", "FK_ActionTags_0_0", "ActionTag")]
+        public EntityCollection<ActionTag> ActionTags
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ActionTag>("MyDayDataModel.FK_ActionTags_0_0", "ActionTag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ActionTag>("MyDayDataModel.FK_ActionTags_0_0", "ActionTag", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MyDayDataModel", Name="ActionTag")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ActionTag : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ActionTag object.
+        /// </summary>
+        /// <param name="actionCode">Initial value of the ActionCode property.</param>
+        /// <param name="tagCode">Initial value of the TagCode property.</param>
+        public static ActionTag CreateActionTag(global::System.Int64 actionCode, global::System.String tagCode)
+        {
+            ActionTag actionTag = new ActionTag();
+            actionTag.ActionCode = actionCode;
+            actionTag.TagCode = tagCode;
+            return actionTag;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ActionCode
+        {
+            get
+            {
+                return _ActionCode;
+            }
+            set
+            {
+                if (_ActionCode != value)
+                {
+                    OnActionCodeChanging(value);
+                    ReportPropertyChanging("ActionCode");
+                    _ActionCode = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ActionCode");
+                    OnActionCodeChanged();
+                }
+            }
+        }
+        private global::System.Int64 _ActionCode;
+        partial void OnActionCodeChanging(global::System.Int64 value);
+        partial void OnActionCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagCode
+        {
+            get
+            {
+                return _TagCode;
+            }
+            set
+            {
+                if (_TagCode != value)
+                {
+                    OnTagCodeChanging(value);
+                    ReportPropertyChanging("TagCode");
+                    _TagCode = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagCode");
+                    OnTagCodeChanged();
+                }
+            }
+        }
+        private global::System.String _TagCode;
+        partial void OnTagCodeChanging(global::System.String value);
+        partial void OnTagCodeChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MyDayDataModel", "FK_ActionTags_0_0", "Action")]
+        public Action Action
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Action>("MyDayDataModel.FK_ActionTags_0_0", "Action").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Action>("MyDayDataModel.FK_ActionTags_0_0", "Action").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Action> ActionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Action>("MyDayDataModel.FK_ActionTags_0_0", "Action");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Action>("MyDayDataModel.FK_ActionTags_0_0", "Action", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -638,6 +834,61 @@ namespace MyDay.Data
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MyDayDataModel", Name="Tag")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Tag : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Tag object.
+        /// </summary>
+        /// <param name="tagCode">Initial value of the TagCode property.</param>
+        public static Tag CreateTag(global::System.String tagCode)
+        {
+            Tag tag = new Tag();
+            tag.TagCode = tagCode;
+            return tag;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagCode
+        {
+            get
+            {
+                return _TagCode;
+            }
+            set
+            {
+                if (_TagCode != value)
+                {
+                    OnTagCodeChanging(value);
+                    ReportPropertyChanging("TagCode");
+                    _TagCode = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagCode");
+                    OnTagCodeChanged();
+                }
+            }
+        }
+        private global::System.String _TagCode;
+        partial void OnTagCodeChanging(global::System.String value);
+        partial void OnTagCodeChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

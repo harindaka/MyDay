@@ -53,5 +53,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ActionTags">
+      <EntityTypeMapping TypeName="MyDayDataModel.ActionTag">
+        <MappingFragment StoreEntitySet="ActionTags">
+          <ScalarProperty Name="TagCode" ColumnName="TagCode" />
+          <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="MyDayDataModel.Tag">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="TagCode" ColumnName="TagCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
