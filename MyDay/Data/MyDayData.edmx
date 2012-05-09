@@ -164,7 +164,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyDayDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="MyDayData" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MyDayData" annotation:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
           <EntitySet Name="Actions" EntityType="MyDayDataModel.Action" />
           <EntitySet Name="ActionTypes" EntityType="MyDayDataModel.ActionType" />
           <EntitySet Name="Projects" EntityType="MyDayDataModel.Project" />

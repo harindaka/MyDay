@@ -33,7 +33,7 @@ namespace MyDay.Data
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class MyDayData : ObjectContext
+    internal partial class MyDayData : ObjectContext
     {
         #region Constructors
     
