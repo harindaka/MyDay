@@ -48,7 +48,7 @@
             this.dgvItems.Name = "dgvItems";
             this.dgvItems.RowHeadersVisible = false;
             this.dgvItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvItems.Size = new System.Drawing.Size(415, 214);
+            this.dgvItems.Size = new System.Drawing.Size(415, 184);
             this.dgvItems.TabIndex = 3;
             this.dgvItems.DoubleClick += new System.EventHandler(this.dgvItems_DoubleClick);
             // 
@@ -59,14 +59,15 @@
             this.txtItem.Location = new System.Drawing.Point(12, 13);
             this.txtItem.MaxLength = 100;
             this.txtItem.Name = "txtItem";
-            this.txtItem.Size = new System.Drawing.Size(256, 20);
+            this.txtItem.Size = new System.Drawing.Size(415, 20);
             this.txtItem.TabIndex = 0;
             this.txtItem.TextChanged += new System.EventHandler(this.txtItem_TextChanged);
             this.txtItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtItem_KeyUp);
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(274, 11);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(274, 242);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
@@ -76,8 +77,9 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(352, 11);
+            this.btnCancel.Location = new System.Drawing.Point(352, 242);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -90,7 +92,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(439, 300);
+            this.ClientSize = new System.Drawing.Size(439, 294);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtItem);
@@ -110,10 +112,10 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvItems;
-        private System.Windows.Forms.TextBox txtItem;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        protected System.Windows.Forms.DataGridView dgvItems;
+        protected System.Windows.Forms.TextBox txtItem;
     }
 }
 

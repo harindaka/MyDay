@@ -194,7 +194,7 @@
             this.txtProject.SearchListCaption = "Search Projects";
             this.txtProject.Size = new System.Drawing.Size(336, 20);
             this.txtProject.TabIndex = 0;
-            this.txtProject.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtProject.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtProject.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtProject.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -217,7 +217,7 @@
             this.txtTask.SearchListCaption = "Search Tasks";
             this.txtTask.Size = new System.Drawing.Size(336, 20);
             this.txtTask.TabIndex = 1;
-            this.txtTask.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTask.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTask.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -249,7 +249,7 @@
             this.txtTaskType.SearchListCaption = "Search Task Types";
             this.txtTaskType.Size = new System.Drawing.Size(336, 20);
             this.txtTaskType.TabIndex = 2;
-            this.txtTaskType.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTaskType.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTaskType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -272,7 +272,7 @@
             this.txtTaskStatus.SearchListCaption = "Search Task Statuses";
             this.txtTaskStatus.Size = new System.Drawing.Size(336, 20);
             this.txtTaskStatus.TabIndex = 3;
-            this.txtTaskStatus.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtTaskStatus.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTaskStatus.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskStatus.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -315,7 +315,7 @@
             this.txtAction.SearchListCaption = "Search Actions";
             this.txtAction.Size = new System.Drawing.Size(336, 104);
             this.txtAction.TabIndex = 5;
-            this.txtAction.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtAction.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtAction.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtAction.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -377,7 +377,7 @@
             this.txtActionType.SearchListCaption = "Search Action Types";
             this.txtActionType.Size = new System.Drawing.Size(336, 20);
             this.txtActionType.TabIndex = 9;
-            this.txtActionType.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtActionType.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtActionType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtActionType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
@@ -485,7 +485,7 @@
             this.txtActionTags.SearchListCaption = "Search Action Types";
             this.txtActionTags.Size = new System.Drawing.Size(336, 20);
             this.txtActionTags.TabIndex = 10;
-            this.txtActionTags.Search += new System.EventHandler(this.txtFields_Search);
+            this.txtActionTags.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtActionTags.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtActionTags.EnabledChanged += new System.EventHandler(this.txtActionTags_EnabledChanged);
             this.txtActionTags.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);

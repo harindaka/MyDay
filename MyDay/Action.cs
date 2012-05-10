@@ -593,9 +593,16 @@ namespace MyDay
             _keepActive = false;
         }
 
-        private void txtFields_Search(object sender, EventArgs e)
+        private void txtFields_Search(object sender, MyDay.AutoCompleteBox.SearchEventArgs e)
         {
             _keepActive = true;
+            if (sender == txtAction)
+            {
+                ActionSearch searchList = new ActionSearch();
+                searchList.ProjectCodeEnabled = false;
+                searchList.QuickSearchTerm = txtProject.Text.Trim();
+                e.SearchList = searchList;
+            }
         }
 
         private void txtActionTags_EnabledChanged(object sender, EventArgs e)

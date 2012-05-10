@@ -45,3 +45,4 @@ C:\wd\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.TaskStatuses.resources
 C:\wd\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.Properties.Resources.resources
 C:\wd\MyDay\MyDay\MyDay\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\wd\MyDay\MyDay\MyDay\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\wd\MyDay\MyDay\MyDay\obj\x86\Debug\MyDay.ActionSearch.resources

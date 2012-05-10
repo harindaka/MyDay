@@ -17,13 +17,13 @@ namespace MyDay
             InitializeComponent();
         }
 
-        public List<string> Source
+        public List<string> QuickSearchSource
         {
             get;
             set;
         }
 
-        public string SearchTerm
+        public string QuickSearchTerm
         {
             get;
             set;
@@ -35,15 +35,20 @@ namespace MyDay
             set;
         }
 
-        private void PopulateResults()
+        protected virtual object Search()
         {
             string searchTerm = txtItem.Text.ToLower();
 
-            var query = from s in this.Source
+            var query = from s in this.QuickSearchSource
                         where s.ToLower().Contains(searchTerm)
                         select new { Item = s };
 
-            dgvItems.DataSource = query.ToList();
+            return query.ToList();
+        }
+
+        protected virtual void RefreshResults()
+        {
+            dgvItems.DataSource = this.Search();
         }
 
         private void ReturnSelection()
@@ -58,14 +63,14 @@ namespace MyDay
 
         private void txtItem_TextChanged(object sender, EventArgs e)
         {
-            this.PopulateResults();
+            this.RefreshResults();
         }
 
         private void SearchList_Load(object sender, EventArgs e)
         {
-            txtItem.Text = this.SearchTerm;
+            txtItem.Text = this.QuickSearchTerm;
             txtItem.SelectAll();
-            this.PopulateResults();
+            this.RefreshResults();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

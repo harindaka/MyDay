@@ -58,6 +58,12 @@
     <Compile Include="AutoCompleteBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ActionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionSearch.Designer.cs">
+      <DependentUpon>ActionSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\MyDayData.cs" />
     <Compile Include="Data\MyDayDataExtentions.cs" />
     <Compile Include="Reports\Report.cs" />
@@ -110,6 +116,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ActionTypes.resx">
       <DependentUpon>ActionTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionSearch.resx">
+      <DependentUpon>ActionSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchList.resx">
       <DependentUpon>SearchList.cs</DependentUpon>

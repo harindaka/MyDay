@@ -8,7 +8,16 @@ namespace MyDay
 {
     public class AutoCompleteBox : TextBox
     {
-        public event EventHandler Search;
+        public class SearchEventArgs : EventArgs
+        {
+            public SearchEventArgs():base(){}
+
+            public SearchList SearchList { get; set; }
+        }
+
+        public delegate void SearchEventHandler(object sender, SearchEventArgs e);
+
+        public event SearchEventHandler Search;
         public event EventHandler SearchComplete;
 
         List<string> _autoCompleteList;
@@ -19,9 +28,9 @@ namespace MyDay
             this.SearchListCaption = "Search";
         }
 
-        protected virtual void OnSearch(EventArgs e)
+        protected virtual void OnSearch(SearchEventArgs e)
         {
-            EventHandler evnt = this.Search;
+            SearchEventHandler evnt = this.Search;
             if (evnt != null)
                 this.Search(this, e);
         }
@@ -38,7 +47,8 @@ namespace MyDay
         public List<string> AutoCompleteList
         {
             get { return _autoCompleteList; }
-            set {
+            set
+            {
                 if (value == null)
                 {
                     this.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
@@ -53,7 +63,7 @@ namespace MyDay
                     items.AddRange(value.ToArray());
                     this.AutoCompleteCustomSource = items;
                 }
-                
+
                 _autoCompleteList = value;
             }
         }
@@ -61,23 +71,29 @@ namespace MyDay
         protected override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-                        
+
             if (e.KeyCode == Keys.Up)
             {
-                this.OnSearch(new EventArgs());
+                SearchEventArgs searchEventArgs = new SearchEventArgs();
+                searchEventArgs.SearchList = new SearchList();
+                this.OnSearch(searchEventArgs);
 
-                SearchList list = new SearchList();
-                list.Source = _autoCompleteList;
-                list.SearchTerm = this.Text;
-                list.Text = this.SearchListCaption;
-                                
-                list.StartPosition = FormStartPosition.CenterParent;
-                list.ShowDialog(this);
-
-                if (!String.IsNullOrEmpty(list.Result))
+                SearchList list = null;
+                if (searchEventArgs.SearchList != null)
                 {
-                    this.Text = list.Result;
-                    this.SelectAll();
+                    list = searchEventArgs.SearchList;
+                    list.QuickSearchSource = _autoCompleteList;
+                    list.QuickSearchTerm = this.Text;
+                    list.Text = this.SearchListCaption;
+
+                    list.StartPosition = FormStartPosition.CenterParent;
+                    list.ShowDialog(this);
+
+                    if (!String.IsNullOrEmpty(list.Result))
+                    {
+                        this.Text = list.Result;
+                        this.SelectAll();
+                    }
                 }
 
                 this.OnSearchComplete(new EventArgs());
