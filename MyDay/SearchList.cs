@@ -12,9 +12,13 @@ namespace MyDay
 {
     public partial class SearchList : FormBase
     {
+        bool _loading;
+
         public SearchList()
         {
             InitializeComponent();
+
+            _loading = true;
         }
 
         public List<string> QuickSearchSource
@@ -25,8 +29,8 @@ namespace MyDay
 
         public string QuickSearchTerm
         {
-            get;
-            set;
+            get { return txtQuickSearchTerm.Text; }
+            set { txtQuickSearchTerm.Text = value; }
         }
 
         public string Result
@@ -35,9 +39,9 @@ namespace MyDay
             set;
         }
 
-        protected virtual object Search()
+        protected virtual object OnSearch()
         {
-            string searchTerm = txtItem.Text.ToLower();
+            string searchTerm = txtQuickSearchTerm.Text.ToLower();
 
             var query = from s in this.QuickSearchSource
                         where s.ToLower().Contains(searchTerm)
@@ -46,9 +50,9 @@ namespace MyDay
             return query.ToList();
         }
 
-        protected virtual void RefreshResults()
+        protected void Search()
         {
-            dgvItems.DataSource = this.Search();
+            dgvItems.DataSource = this.OnSearch();
         }
 
         private void ReturnSelection()
@@ -61,16 +65,20 @@ namespace MyDay
             this.Close();
         }
 
-        private void txtItem_TextChanged(object sender, EventArgs e)
+        private void txtQuickSearchTerm_TextChanged(object sender, EventArgs e)
         {
-            this.RefreshResults();
+            if(!_loading)
+                this.Search();
         }
 
         private void SearchList_Load(object sender, EventArgs e)
         {
-            txtItem.Text = this.QuickSearchTerm;
-            txtItem.SelectAll();
-            this.RefreshResults();
+            if (!this.DesignMode)
+            {
+                txtQuickSearchTerm.SelectAll();
+                this.Search();
+                _loading = false;
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -83,7 +91,7 @@ namespace MyDay
             this.ReturnSelection();
         }
 
-        private void txtItem_KeyUp(object sender, KeyEventArgs e)
+        private void txtQuickSearchTerm_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
             {

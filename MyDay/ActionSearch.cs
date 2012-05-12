@@ -12,48 +12,64 @@ namespace MyDay
 {
     public partial class ActionSearch : SearchList
     {
-        public ActionSearch():base()
+        public ActionSearch()
+            : base()
         {
             InitializeComponent();
         }
 
         internal bool ProjectCodeEnabled
         {
-            get { return base.txtItem.Enabled; }
-            set { base.txtItem.Enabled = false; }
+            get { return base.txtQuickSearchTerm.Enabled; }
+            set { base.txtQuickSearchTerm.Enabled = false; }
         }
 
-        protected override object Search()
+        protected override object OnSearch()
         {
             try
             {
                 using (MyDayData db = new MyDayData())
                 {
-                    var query = from ts in db.Actions
-                                where ts.ProjectCode.Equals(this.txtItem.Text.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                orderby ts.ToTime
-                                select new
-                                {
-                                    ActionCode = ts.ActionCode,
-                                    Project = ts.ProjectCode,
-                                    Task = ts.TaskCode,
-                                    From = ts.FromTime,
-                                    To = ts.ToTime,
-                                    Comments = ts.ActionComments,
-                                    ActionType = ts.ActionTypeCode,
-                                    Tags = ts.ActionTags.Aggregate(String.Empty, (results, nextString)=> String.Format("{0},{1}", results, nextString))
-                                };
+                    var query = from a in db.Actions
+                                         from t in db.ActionTags.Where(tag => tag.ActionCode == a.ActionCode).DefaultIfEmpty()
+                                         where a.ProjectCode.Equals(this.txtQuickSearchTerm.Text.Trim(), StringComparison.InvariantCultureIgnoreCase)
+                                         orderby a.ToTime, t.TagCode
+                                         select new
+                                         {
+                                             ActionCode = a.ActionCode,
+                                             ProjectCode = a.ProjectCode,
+                                             TaskCode = a.TaskCode,
+                                             FromTime = a.FromTime,
+                                             ToTime = a.ToTime,
+                                             ActionComments = a.ActionComments,
+                                             ActionTypeCode = a.ActionTypeCode,
+                                             TagCode = t.TagCode
+                                         };
 
-                    return query.ToList();
+                    var groupedActions = from a in query.ToList()
+                                         group a by a.ActionCode into g
+                                         select new
+                                         {
+                                             ActionCode = g.First().ActionCode,
+                                             Project = g.First().ProjectCode,
+                                             Task = g.First().TaskCode,
+                                             From = g.First().FromTime,
+                                             To = g.First().ToTime,
+                                             Comments = g.First().ActionComments,
+                                             ActionType = g.First().ActionTypeCode,
+                                             Tags = String.Join(",", g.Select(row => row.TagCode))
+                                         };
+
+                    return groupedActions.ToList();
                 }
             }
             catch (Exception ex)
             {
                 this.SetStatus(ex);
                 return null;
-            }            
+            }
         }
-                        
+
         private void Delete()
         {
             try
@@ -78,7 +94,7 @@ namespace MyDay
                             db.SaveChanges();
                             this.SetStatus("Selected items were deleted successfully");
 
-                            this.RefreshResults();
+                            this.Search();
                         }
                     }
                 }
@@ -86,7 +102,7 @@ namespace MyDay
             catch (Exception ex)
             {
                 this.SetStatus(ex);
-                this.RefreshResults();
+                this.Search();
             }
             finally
             {
@@ -96,9 +112,9 @@ namespace MyDay
 
         private void Form_Load(object sender, EventArgs e)
         {
-            this.RefreshResults();
+            
         }
-        
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             this.Delete();

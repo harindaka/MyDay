@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.dgvItems = new System.Windows.Forms.DataGridView();
-            this.txtItem = new System.Windows.Forms.TextBox();
+            this.txtQuickSearchTerm = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
@@ -52,17 +52,17 @@
             this.dgvItems.TabIndex = 3;
             this.dgvItems.DoubleClick += new System.EventHandler(this.dgvItems_DoubleClick);
             // 
-            // txtItem
+            // txtQuickSearchTerm
             // 
-            this.txtItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtQuickSearchTerm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtItem.Location = new System.Drawing.Point(12, 13);
-            this.txtItem.MaxLength = 100;
-            this.txtItem.Name = "txtItem";
-            this.txtItem.Size = new System.Drawing.Size(415, 20);
-            this.txtItem.TabIndex = 0;
-            this.txtItem.TextChanged += new System.EventHandler(this.txtItem_TextChanged);
-            this.txtItem.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtItem_KeyUp);
+            this.txtQuickSearchTerm.Location = new System.Drawing.Point(12, 13);
+            this.txtQuickSearchTerm.MaxLength = 100;
+            this.txtQuickSearchTerm.Name = "txtQuickSearchTerm";
+            this.txtQuickSearchTerm.Size = new System.Drawing.Size(415, 20);
+            this.txtQuickSearchTerm.TabIndex = 0;
+            this.txtQuickSearchTerm.TextChanged += new System.EventHandler(this.txtQuickSearchTerm_TextChanged);
+            this.txtQuickSearchTerm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtQuickSearchTerm_KeyUp);
             // 
             // btnOK
             // 
@@ -95,13 +95,13 @@
             this.ClientSize = new System.Drawing.Size(439, 294);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.txtItem);
+            this.Controls.Add(this.txtQuickSearchTerm);
             this.Controls.Add(this.dgvItems);
             this.Name = "SearchList";
             this.Text = "Search List";
             this.Load += new System.EventHandler(this.SearchList_Load);
             this.Controls.SetChildIndex(this.dgvItems, 0);
-            this.Controls.SetChildIndex(this.txtItem, 0);
+            this.Controls.SetChildIndex(this.txtQuickSearchTerm, 0);
             this.Controls.SetChildIndex(this.btnOK, 0);
             this.Controls.SetChildIndex(this.btnCancel, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
@@ -112,10 +112,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnCancel;
+        protected System.Windows.Forms.TextBox txtQuickSearchTerm;
         protected System.Windows.Forms.DataGridView dgvItems;
-        protected System.Windows.Forms.TextBox txtItem;
+        protected System.Windows.Forms.Button btnOK;
+        protected System.Windows.Forms.Button btnCancel;
     }
 }
 
