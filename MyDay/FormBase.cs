@@ -14,11 +14,26 @@ namespace MyDay
         public FormBase()
         {
             InitializeComponent();
+
+            
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (!this.DesignMode)
+            {
+                this.StartPosition = FormStartPosition.Manual;
+                Rectangle r = Screen.PrimaryScreen.WorkingArea;
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
+            }
         }
 
         private void FormBase_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected string Status

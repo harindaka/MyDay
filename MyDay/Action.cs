@@ -20,11 +20,7 @@ namespace MyDay
         {
             InitializeComponent();
 
-            this.lblTime.Text = "MyDay - " + DateTime.Now.ToString("hh:mm:ss tt");
-
-            Rectangle r = Screen.PrimaryScreen.WorkingArea;
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
+            this.lblTime.Text = "MyDay - " + DateTime.Now.ToString("hh:mm:ss tt");           
         }
 
         private void Initialize()
@@ -599,8 +595,8 @@ namespace MyDay
             if (sender == txtAction)
             {
                 ActionSearch searchList = new ActionSearch();
-                searchList.ProjectCodeEnabled = false;
-                searchList.QuickSearchTerm = txtProject.Text.Trim();
+                searchList.ProjectCode = txtProject.Text.Trim();
+                searchList.TaskCode = txtTask.Text.Trim();
                 e.SearchList = searchList;
             }
         }

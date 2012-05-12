@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgvItems = new System.Windows.Forms.DataGridView();
+            this.dgvItems = new MyDay.InheritableDataGridView();
             this.txtQuickSearchTerm = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -56,6 +56,7 @@
             // 
             this.txtQuickSearchTerm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtQuickSearchTerm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtQuickSearchTerm.Location = new System.Drawing.Point(12, 13);
             this.txtQuickSearchTerm.MaxLength = 100;
             this.txtQuickSearchTerm.Name = "txtQuickSearchTerm";
@@ -113,7 +114,7 @@
         #endregion
 
         protected System.Windows.Forms.TextBox txtQuickSearchTerm;
-        protected System.Windows.Forms.DataGridView dgvItems;
+        protected MyDay.InheritableDataGridView dgvItems;
         protected System.Windows.Forms.Button btnOK;
         protected System.Windows.Forms.Button btnCancel;
     }

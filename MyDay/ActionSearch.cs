@@ -18,10 +18,34 @@ namespace MyDay
             InitializeComponent();
         }
 
-        internal bool ProjectCodeEnabled
+        internal string ProjectCode { get; set; }
+
+        internal string TaskCode { get; set; }
+        
+        private Control GetNextControl(Control ctrl)
         {
-            get { return base.txtQuickSearchTerm.Enabled; }
-            set { base.txtQuickSearchTerm.Enabled = false; }
+            if (ctrl == txtActionType)
+                return dtpFrom;
+            else if (ctrl == dtpFrom)
+                return dtpTo;
+            else if (ctrl == dtpTo)
+                return txtQuickSearchTerm;
+            else if (ctrl == txtQuickSearchTerm)
+                return btnSearch;
+            else if (ctrl == btnSearch)
+                return btnOK;
+            
+            return null;
+        }
+
+        private void MoveToNextControl(Control currentControl)
+        {
+            Control nextCtrl = this.GetNextControl(currentControl);
+            nextCtrl.Focus();
+            if (nextCtrl is TextBox)
+                ((TextBox)nextCtrl).SelectAll();
+
+            this.SetStatus(String.Empty);
         }
 
         protected override object OnSearch()
@@ -32,8 +56,11 @@ namespace MyDay
                 {
                     var query = from a in db.Actions
                                          from t in db.ActionTags.Where(tag => tag.ActionCode == a.ActionCode).DefaultIfEmpty()
-                                         where a.ProjectCode.Equals(this.txtQuickSearchTerm.Text.Trim(), StringComparison.InvariantCultureIgnoreCase)
-                                         orderby a.ToTime, t.TagCode
+                                         where a.ProjectCode == this.ProjectCode
+                                         && a.TaskCode == this.TaskCode
+                                         && a.ActionComments.Contains(this.txtQuickSearchTerm.Text.Trim())
+                                         && ((a.FromTime <= dtpFrom.Value && a.FromTime >= dtpTo.Value) || (a.ToTime >= dtpFrom.Value && a.ToTime <= dtpTo.Value))
+                                         orderby a.FromTime, t.TagCode
                                          select new
                                          {
                                              ActionCode = a.ActionCode,
@@ -118,6 +145,20 @@ namespace MyDay
         private void btnDelete_Click(object sender, EventArgs e)
         {
             this.Delete();
+        }
+
+        private void Fields_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Control ctrl = (Control)sender;
+                this.MoveToNextControl(ctrl);
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            this.Search();
         }
     }
 }
