@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MyDay.Data;
+using System.Collections;
 
 namespace MyDay
 {
@@ -48,24 +49,29 @@ namespace MyDay
             this.SetStatus(String.Empty);
         }
 
+        private void Initialize()
+        {
+            btnOK.Enabled = false;
+        }
+
         protected override object OnSearch()
         {
             try
             {
                 using (MyDayData db = new MyDayData())
                 {
+                    bool ignoreContainsPhrase = String.IsNullOrEmpty(txtQuickSearchTerm.Text.Trim());
+
                     var query = from a in db.Actions
                                          from t in db.ActionTags.Where(tag => tag.ActionCode == a.ActionCode).DefaultIfEmpty()
                                          where a.ProjectCode == this.ProjectCode
                                          && a.TaskCode == this.TaskCode
-                                         && a.ActionComments.Contains(this.txtQuickSearchTerm.Text.Trim())
+                                         && (ignoreContainsPhrase || a.ActionComments.Contains(this.txtQuickSearchTerm.Text.Trim()))
                                          && ((a.FromTime <= dtpFrom.Value && a.FromTime >= dtpTo.Value) || (a.ToTime >= dtpFrom.Value && a.ToTime <= dtpTo.Value))
                                          orderby a.FromTime, t.TagCode
                                          select new
                                          {
                                              ActionCode = a.ActionCode,
-                                             ProjectCode = a.ProjectCode,
-                                             TaskCode = a.TaskCode,
                                              FromTime = a.FromTime,
                                              ToTime = a.ToTime,
                                              ActionComments = a.ActionComments,
@@ -78,16 +84,14 @@ namespace MyDay
                                          select new
                                          {
                                              ActionCode = g.First().ActionCode,
-                                             Project = g.First().ProjectCode,
-                                             Task = g.First().TaskCode,
                                              From = g.First().FromTime,
                                              To = g.First().ToTime,
                                              Comments = g.First().ActionComments,
                                              ActionType = g.First().ActionTypeCode,
                                              Tags = String.Join(",", g.Select(row => row.TagCode))
                                          };
-
-                    return groupedActions.ToList();
+                                        
+                    return groupedActions.ToList();                   
                 }
             }
             catch (Exception ex)
@@ -139,7 +143,7 @@ namespace MyDay
 
         private void Form_Load(object sender, EventArgs e)
         {
-            
+            this.Initialize();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

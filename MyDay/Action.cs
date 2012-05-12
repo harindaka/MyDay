@@ -125,6 +125,7 @@ namespace MyDay
 
             dtpActionTimeFrom.Value = dtpActionTimeTo.Value;
             btnCancel.Enabled = true;
+            btnTimerToggle.Enabled = true;
             lblActionCode.Text = "(New)";
 
             this.SetStatus("Tip: Hit Up Arrow Key to select/search existing values.");

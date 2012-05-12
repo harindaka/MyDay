@@ -42,7 +42,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvItems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvItems.ColumnHeadersVisible = false;
             this.dgvItems.Location = new System.Drawing.Point(12, 49);
             this.dgvItems.MultiSelect = false;
             this.dgvItems.Name = "dgvItems";
@@ -51,6 +50,7 @@
             this.dgvItems.Size = new System.Drawing.Size(415, 184);
             this.dgvItems.TabIndex = 3;
             this.dgvItems.DoubleClick += new System.EventHandler(this.dgvItems_DoubleClick);
+            this.dgvItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvItems_KeyUp);
             // 
             // txtQuickSearchTerm
             // 

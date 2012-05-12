@@ -65,6 +65,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.dtpActionTimeTo = new System.Windows.Forms.DateTimePicker();
             this.pnlFields = new System.Windows.Forms.Panel();
+            this.btnTimerToggle = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.txtActionTags = new MyDay.AutoCompleteBox();
             this.tpTags = new MyDay.TagPanel();
@@ -93,15 +94,14 @@
             // 
             // lblTime
             // 
-            this.lblTime.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTime.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblTime.Location = new System.Drawing.Point(0, 24);
+            this.lblTime.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblTime.Location = new System.Drawing.Point(15, 12);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(515, 22);
+            this.lblTime.Size = new System.Drawing.Size(483, 22);
             this.lblTime.TabIndex = 1;
             this.lblTime.Text = "Time";
-            this.lblTime.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.lblTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mnuMenu
             // 
@@ -127,14 +127,14 @@
             // minimizeToolStripMenuItem
             // 
             this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.minimizeToolStripMenuItem.Text = "Minimize";
             this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimizeToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -152,28 +152,28 @@
             // projectsToolStripMenuItem
             // 
             this.projectsToolStripMenuItem.Name = "projectsToolStripMenuItem";
-            this.projectsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.projectsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.projectsToolStripMenuItem.Text = "Projects";
             this.projectsToolStripMenuItem.Click += new System.EventHandler(this.projectsToolStripMenuItem_Click);
             // 
             // taskTypesToolStripMenuItem
             // 
             this.taskTypesToolStripMenuItem.Name = "taskTypesToolStripMenuItem";
-            this.taskTypesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.taskTypesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.taskTypesToolStripMenuItem.Text = "Task Types";
             this.taskTypesToolStripMenuItem.Click += new System.EventHandler(this.taskTypesToolStripMenuItem_Click);
             // 
             // taskStatusesToolStripMenuItem
             // 
             this.taskStatusesToolStripMenuItem.Name = "taskStatusesToolStripMenuItem";
-            this.taskStatusesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.taskStatusesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.taskStatusesToolStripMenuItem.Text = "Task Statuses";
             this.taskStatusesToolStripMenuItem.Click += new System.EventHandler(this.taskStatusesToolStripMenuItem_Click);
             // 
             // actionTypesToolStripMenuItem
             // 
             this.actionTypesToolStripMenuItem.Name = "actionTypesToolStripMenuItem";
-            this.actionTypesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.actionTypesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.actionTypesToolStripMenuItem.Text = "Action Types";
             this.actionTypesToolStripMenuItem.Click += new System.EventHandler(this.actionTypesToolStripMenuItem_Click);
             // 
@@ -188,20 +188,20 @@
             // 
             this.txtProject.AutoCompleteList = null;
             this.txtProject.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtProject.Location = new System.Drawing.Point(127, 13);
+            this.txtProject.Location = new System.Drawing.Point(127, 43);
             this.txtProject.MaxLength = 100;
             this.txtProject.Name = "txtProject";
             this.txtProject.SearchListCaption = "Search Projects";
-            this.txtProject.Size = new System.Drawing.Size(336, 20);
+            this.txtProject.Size = new System.Drawing.Size(371, 20);
             this.txtProject.TabIndex = 0;
-            this.txtProject.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtProject.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtProject.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtProject.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 15);
+            this.label1.Location = new System.Drawing.Point(15, 45);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 6;
@@ -211,20 +211,20 @@
             // 
             this.txtTask.AutoCompleteList = null;
             this.txtTask.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTask.Location = new System.Drawing.Point(127, 39);
+            this.txtTask.Location = new System.Drawing.Point(127, 69);
             this.txtTask.MaxLength = 100;
             this.txtTask.Name = "txtTask";
             this.txtTask.SearchListCaption = "Search Tasks";
-            this.txtTask.Size = new System.Drawing.Size(336, 20);
+            this.txtTask.Size = new System.Drawing.Size(371, 20);
             this.txtTask.TabIndex = 1;
-            this.txtTask.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtTask.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTask.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 41);
+            this.label2.Location = new System.Drawing.Point(15, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 8;
@@ -233,7 +233,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 68);
+            this.label3.Location = new System.Drawing.Point(15, 98);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 10;
@@ -243,20 +243,20 @@
             // 
             this.txtTaskType.AutoCompleteList = null;
             this.txtTaskType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTaskType.Location = new System.Drawing.Point(127, 66);
+            this.txtTaskType.Location = new System.Drawing.Point(127, 96);
             this.txtTaskType.MaxLength = 100;
             this.txtTaskType.Name = "txtTaskType";
             this.txtTaskType.SearchListCaption = "Search Task Types";
-            this.txtTaskType.Size = new System.Drawing.Size(336, 20);
+            this.txtTaskType.Size = new System.Drawing.Size(371, 20);
             this.txtTaskType.TabIndex = 2;
-            this.txtTaskType.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtTaskType.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTaskType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 96);
+            this.label4.Location = new System.Drawing.Point(15, 126);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 12;
@@ -266,20 +266,20 @@
             // 
             this.txtTaskStatus.AutoCompleteList = null;
             this.txtTaskStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTaskStatus.Location = new System.Drawing.Point(127, 94);
+            this.txtTaskStatus.Location = new System.Drawing.Point(127, 124);
             this.txtTaskStatus.MaxLength = 100;
             this.txtTaskStatus.Name = "txtTaskStatus";
             this.txtTaskStatus.SearchListCaption = "Search Task Statuses";
-            this.txtTaskStatus.Size = new System.Drawing.Size(336, 20);
+            this.txtTaskStatus.Size = new System.Drawing.Size(371, 20);
             this.txtTaskStatus.TabIndex = 3;
-            this.txtTaskStatus.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtTaskStatus.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtTaskStatus.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtTaskStatus.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 122);
+            this.label5.Location = new System.Drawing.Point(15, 152);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 13);
             this.label5.TabIndex = 13;
@@ -288,17 +288,17 @@
             // txtEstEffort
             // 
             this.txtEstEffort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtEstEffort.Location = new System.Drawing.Point(127, 120);
+            this.txtEstEffort.Location = new System.Drawing.Point(127, 150);
             this.txtEstEffort.MaxLength = 4;
             this.txtEstEffort.Name = "txtEstEffort";
-            this.txtEstEffort.Size = new System.Drawing.Size(336, 20);
+            this.txtEstEffort.Size = new System.Drawing.Size(371, 20);
             this.txtEstEffort.TabIndex = 4;
             this.txtEstEffort.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 150);
+            this.label6.Location = new System.Drawing.Point(15, 180);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 13);
             this.label6.TabIndex = 16;
@@ -308,21 +308,21 @@
             // 
             this.txtAction.AutoCompleteList = null;
             this.txtAction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAction.Location = new System.Drawing.Point(127, 148);
+            this.txtAction.Location = new System.Drawing.Point(127, 178);
             this.txtAction.MaxLength = 500;
             this.txtAction.Multiline = true;
             this.txtAction.Name = "txtAction";
             this.txtAction.SearchListCaption = "Search Actions";
-            this.txtAction.Size = new System.Drawing.Size(336, 104);
+            this.txtAction.Size = new System.Drawing.Size(371, 104);
             this.txtAction.TabIndex = 5;
-            this.txtAction.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtAction.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtAction.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtAction.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(15, 267);
+            this.label7.Location = new System.Drawing.Point(15, 297);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 13);
             this.label7.TabIndex = 17;
@@ -332,7 +332,7 @@
             // 
             this.dtpActionDate.CustomFormat = "dd-MMM-yyyy";
             this.dtpActionDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpActionDate.Location = new System.Drawing.Point(127, 262);
+            this.dtpActionDate.Location = new System.Drawing.Point(127, 292);
             this.dtpActionDate.Name = "dtpActionDate";
             this.dtpActionDate.Size = new System.Drawing.Size(121, 20);
             this.dtpActionDate.TabIndex = 6;
@@ -341,7 +341,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(254, 267);
+            this.label8.Location = new System.Drawing.Point(254, 297);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 19;
@@ -351,7 +351,7 @@
             // 
             this.dtpActionTimeFrom.CustomFormat = "";
             this.dtpActionTimeFrom.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpActionTimeFrom.Location = new System.Drawing.Point(290, 262);
+            this.dtpActionTimeFrom.Location = new System.Drawing.Point(290, 292);
             this.dtpActionTimeFrom.Name = "dtpActionTimeFrom";
             this.dtpActionTimeFrom.ShowUpDown = true;
             this.dtpActionTimeFrom.Size = new System.Drawing.Size(88, 20);
@@ -361,7 +361,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(384, 267);
+            this.label9.Location = new System.Drawing.Point(384, 297);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(20, 13);
             this.label9.TabIndex = 21;
@@ -371,20 +371,20 @@
             // 
             this.txtActionType.AutoCompleteList = null;
             this.txtActionType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtActionType.Location = new System.Drawing.Point(127, 290);
+            this.txtActionType.Location = new System.Drawing.Point(127, 320);
             this.txtActionType.MaxLength = 100;
             this.txtActionType.Name = "txtActionType";
             this.txtActionType.SearchListCaption = "Search Action Types";
-            this.txtActionType.Size = new System.Drawing.Size(336, 20);
+            this.txtActionType.Size = new System.Drawing.Size(371, 20);
             this.txtActionType.TabIndex = 9;
-            this.txtActionType.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtActionType.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtActionType.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtActionType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 292);
+            this.label10.Location = new System.Drawing.Point(15, 322);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(68, 13);
             this.label10.TabIndex = 22;
@@ -394,10 +394,10 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(347, 415);
+            this.btnSave.Location = new System.Drawing.Point(342, 451);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 11;
+            this.btnSave.TabIndex = 13;
             this.btnSave.Text = "&Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -407,10 +407,10 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(428, 415);
+            this.btnCancel.Location = new System.Drawing.Point(423, 451);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 12;
+            this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -419,7 +419,7 @@
             // 
             this.dtpActionTimeTo.CustomFormat = "";
             this.dtpActionTimeTo.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpActionTimeTo.Location = new System.Drawing.Point(410, 262);
+            this.dtpActionTimeTo.Location = new System.Drawing.Point(410, 292);
             this.dtpActionTimeTo.Name = "dtpActionTimeTo";
             this.dtpActionTimeTo.ShowUpDown = true;
             this.dtpActionTimeTo.Size = new System.Drawing.Size(88, 20);
@@ -428,7 +428,9 @@
             // 
             // pnlFields
             // 
+            this.pnlFields.Controls.Add(this.btnTimerToggle);
             this.pnlFields.Controls.Add(this.label11);
+            this.pnlFields.Controls.Add(this.lblTime);
             this.pnlFields.Controls.Add(this.txtActionTags);
             this.pnlFields.Controls.Add(this.tpTags);
             this.pnlFields.Controls.Add(this.lblActionCode);
@@ -461,15 +463,27 @@
             this.pnlFields.Controls.Add(this.label8);
             this.pnlFields.Controls.Add(this.dtpActionDate);
             this.pnlFields.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFields.Location = new System.Drawing.Point(0, 46);
+            this.pnlFields.Location = new System.Drawing.Point(0, 24);
             this.pnlFields.Name = "pnlFields";
-            this.pnlFields.Size = new System.Drawing.Size(515, 451);
+            this.pnlFields.Size = new System.Drawing.Size(515, 487);
             this.pnlFields.TabIndex = 29;
+            // 
+            // btnTimerToggle
+            // 
+            this.btnTimerToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTimerToggle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTimerToggle.Location = new System.Drawing.Point(18, 451);
+            this.btnTimerToggle.Name = "btnTimerToggle";
+            this.btnTimerToggle.Size = new System.Drawing.Size(75, 23);
+            this.btnTimerToggle.TabIndex = 12;
+            this.btnTimerToggle.TabStop = false;
+            this.btnTimerToggle.Text = "&Time It!";
+            this.btnTimerToggle.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(15, 318);
+            this.label11.Location = new System.Drawing.Point(15, 348);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(64, 13);
             this.label11.TabIndex = 33;
@@ -479,13 +493,13 @@
             // 
             this.txtActionTags.AutoCompleteList = null;
             this.txtActionTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtActionTags.Location = new System.Drawing.Point(127, 316);
+            this.txtActionTags.Location = new System.Drawing.Point(127, 346);
             this.txtActionTags.MaxLength = 100;
             this.txtActionTags.Name = "txtActionTags";
             this.txtActionTags.SearchListCaption = "Search Action Types";
-            this.txtActionTags.Size = new System.Drawing.Size(336, 20);
+            this.txtActionTags.Size = new System.Drawing.Size(371, 20);
             this.txtActionTags.TabIndex = 10;
-            this.txtActionTags.Search += new AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
+            this.txtActionTags.Search += new MyDay.AutoCompleteBox.SearchEventHandler(this.txtFields_Search);
             this.txtActionTags.SearchComplete += new System.EventHandler(this.txtFields_SearchComplete);
             this.txtActionTags.EnabledChanged += new System.EventHandler(this.txtActionTags_EnabledChanged);
             this.txtActionTags.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFields_KeyUp);
@@ -494,15 +508,15 @@
             // 
             this.tpTags.AutoScroll = true;
             this.tpTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tpTags.Location = new System.Drawing.Point(18, 342);
+            this.tpTags.Location = new System.Drawing.Point(18, 372);
             this.tpTags.Name = "tpTags";
-            this.tpTags.Size = new System.Drawing.Size(445, 67);
-            this.tpTags.TabIndex = 31;
+            this.tpTags.Size = new System.Drawing.Size(480, 67);
+            this.tpTags.TabIndex = 11;
             // 
             // lblActionCode
             // 
             this.lblActionCode.AutoSize = true;
-            this.lblActionCode.Location = new System.Drawing.Point(58, 150);
+            this.lblActionCode.Location = new System.Drawing.Point(15, 205);
             this.lblActionCode.Name = "lblActionCode";
             this.lblActionCode.Size = new System.Drawing.Size(35, 13);
             this.lblActionCode.TabIndex = 30;
@@ -511,7 +525,7 @@
             // pbNewAction
             // 
             this.pbNewAction.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewAction.Location = new System.Drawing.Point(469, 148);
+            this.pbNewAction.Location = new System.Drawing.Point(86, 178);
             this.pbNewAction.Name = "pbNewAction";
             this.pbNewAction.Size = new System.Drawing.Size(29, 20);
             this.pbNewAction.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -521,7 +535,7 @@
             // pbNewActionType
             // 
             this.pbNewActionType.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewActionType.Location = new System.Drawing.Point(469, 290);
+            this.pbNewActionType.Location = new System.Drawing.Point(86, 320);
             this.pbNewActionType.Name = "pbNewActionType";
             this.pbNewActionType.Size = new System.Drawing.Size(29, 20);
             this.pbNewActionType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -531,7 +545,7 @@
             // pbNewTaskStatus
             // 
             this.pbNewTaskStatus.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewTaskStatus.Location = new System.Drawing.Point(469, 94);
+            this.pbNewTaskStatus.Location = new System.Drawing.Point(86, 124);
             this.pbNewTaskStatus.Name = "pbNewTaskStatus";
             this.pbNewTaskStatus.Size = new System.Drawing.Size(29, 20);
             this.pbNewTaskStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -541,7 +555,7 @@
             // pbNewTaskType
             // 
             this.pbNewTaskType.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewTaskType.Location = new System.Drawing.Point(469, 66);
+            this.pbNewTaskType.Location = new System.Drawing.Point(86, 96);
             this.pbNewTaskType.Name = "pbNewTaskType";
             this.pbNewTaskType.Size = new System.Drawing.Size(29, 20);
             this.pbNewTaskType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -551,7 +565,7 @@
             // pbNewTask
             // 
             this.pbNewTask.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewTask.Location = new System.Drawing.Point(469, 39);
+            this.pbNewTask.Location = new System.Drawing.Point(86, 69);
             this.pbNewTask.Name = "pbNewTask";
             this.pbNewTask.Size = new System.Drawing.Size(29, 20);
             this.pbNewTask.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -561,7 +575,7 @@
             // pbNewProject
             // 
             this.pbNewProject.Image = global::MyDay.Properties.Resources.new1;
-            this.pbNewProject.Location = new System.Drawing.Point(469, 13);
+            this.pbNewProject.Location = new System.Drawing.Point(86, 43);
             this.pbNewProject.Name = "pbNewProject";
             this.pbNewProject.Size = new System.Drawing.Size(29, 20);
             this.pbNewProject.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -574,9 +588,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(515, 519);
+            this.ClientSize = new System.Drawing.Size(515, 533);
             this.Controls.Add(this.pnlFields);
-            this.Controls.Add(this.lblTime);
             this.Controls.Add(this.mnuMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.mnuMenu;
@@ -590,7 +603,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewAction_FormClosing);
             this.Load += new System.EventHandler(this.NewAction_Load);
             this.Controls.SetChildIndex(this.mnuMenu, 0);
-            this.Controls.SetChildIndex(this.lblTime, 0);
             this.Controls.SetChildIndex(this.pnlFields, 0);
             this.mnuMenu.ResumeLayout(false);
             this.mnuMenu.PerformLayout();
@@ -654,5 +666,6 @@
         private TagPanel tpTags;
         private System.Windows.Forms.Label label11;
         private AutoCompleteBox txtActionTags;
+        private System.Windows.Forms.Button btnTimerToggle;
     }
 }

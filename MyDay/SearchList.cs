@@ -53,6 +53,7 @@ namespace MyDay
         protected void Search()
         {
             dgvItems.DataSource = this.OnSearch();
+            btnOK.Enabled = (dgvItems.Rows.Count > 0);
         }
 
         private void ReturnSelection()
@@ -71,14 +72,22 @@ namespace MyDay
                 this.Search();
         }
 
-        private void SearchList_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
+
             if (!this.DesignMode)
             {
+                btnOK.Enabled = false;
                 txtQuickSearchTerm.SelectAll();
                 this.Search();
-                _loading = false;
+                _loading = false;                
             }
+        }
+
+        private void SearchList_Load(object sender, EventArgs e)
+        {
+            
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -110,6 +119,15 @@ namespace MyDay
                     dgvItems.Rows[nextRowIndex].Selected = true;
                     dgvItems.CurrentCell = dgvItems.Rows[nextRowIndex].Cells[0];
                 }
+            }
+        }
+
+        private void dgvItems_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (dgvItems.SelectedRows.Count > 0)
+                    this.ReturnSelection();
             }
         }
     }
